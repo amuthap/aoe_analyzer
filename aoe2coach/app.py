@@ -86,9 +86,11 @@ async def analyze_replay(
 
 @app.post("/ai-analyze", response_class=JSONResponse)
 async def ai_analyze(
+    mode: str = Form(default="game"),
+    target: str = Form(default=""),
     focus_player: str = Form(default=""),
 ):
-    """Run AI (Qwen) analysis on the last uploaded replay."""
+    """Run AI (Qwen) analysis. Modes: game (full), player (specific), team (specific)."""
     global _last_analysis
 
     if not _last_analysis:
@@ -99,9 +101,13 @@ async def ai_analyze(
 
     analysis_dict = _last_analysis["analysis"]
     coaching_dict = _last_analysis["coaching"]
-    player = focus_player or _last_analysis.get("focus_player", "")
 
-    result = get_ai_analysis(analysis_dict, coaching_dict, focus_player=player or None)
+    result = get_ai_analysis(
+        analysis_dict, coaching_dict,
+        mode=mode,
+        target=target or None,
+        focus_player=focus_player or None,
+    )
 
     return JSONResponse(content=result)
 
