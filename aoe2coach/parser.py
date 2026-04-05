@@ -122,28 +122,34 @@ def _parse_in_subprocess(file_data: bytes) -> dict:
         script_path = script_tmp.name
 
     try:
+        # Use encoding='utf-8' with errors='replace' to handle Rust panic Unicode output on Windows
         result = subprocess.run(
             [sys.executable, script_path, tmp_path],
             capture_output=True,
-            text=True,
             timeout=30,
             cwd=None,
         )
 
-        if result.returncode != 0:
-            stderr = result.stderr[:500] if result.stderr else ""
-            # Check for common Rust panic patterns
-            if "panicked" in stderr or "PanicException" in stderr or "bad magic" in stderr:
-                return {"error": "This replay file could not be parsed. It may be an in-progress recording, a corrupted file, or from an unsupported game version. Try a completed multiplayer game replay."}
-            if stderr:
-                return {"error": f"Parser error: {stderr[:200]}"}
-            return {"error": "This replay file could not be parsed. It may be corrupted or an in-progress recording."}
+        # Decode stdout/stderr safely (Rust panics output Unicode box-drawing chars)
+        try:
+            stdout_text = result.stdout.decode('utf-8', errors='replace') if result.stdout else ""
+        except Exception:
+            stdout_text = ""
+        try:
+            stderr_text = result.stderr.decode('utf-8', errors='replace') if result.stderr else ""
+        except Exception:
+            stderr_text = ""
 
-        stdout = result.stdout.strip()
-        if not stdout:
+        if result.returncode != 0:
+            # Check for common Rust panic patterns
+            if "panicked" in stderr_text or "PanicException" in stderr_text or "bad magic" in stderr_text or not stderr_text.strip():
+                return {"error": "This replay file could not be parsed. It may be an in-progress recording, a corrupted file, or from an unsupported game version. Try a completed multiplayer game replay."}
+            return {"error": f"Parser error: {stderr_text[:200]}"}
+
+        if not stdout_text.strip():
             return {"error": "Parser returned empty output"}
 
-        return json.loads(stdout)
+        return json.loads(stdout_text.strip())
 
     except subprocess.TimeoutExpired:
         return {"error": "Replay parsing timed out (file may be too large or corrupted)"}
