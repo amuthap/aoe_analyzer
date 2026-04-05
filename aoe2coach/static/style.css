@@ -567,6 +567,40 @@ body {
 .ai-text p:last-child { margin-bottom: 0; }
 .ai-text strong { color: var(--gold-light); }
 
+.ai-age {
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 8px 12px;
+    margin: 16px -16px 8px;
+    border-radius: 4px;
+}
+.ai-age:first-child { margin-top: 0; }
+.dark-age { background: rgba(138, 138, 138, 0.15); color: #aaa; border-left: 3px solid #888; }
+.feudal-age { background: rgba(66, 165, 245, 0.12); color: var(--blue); border-left: 3px solid var(--blue); }
+.castle-age { background: rgba(171, 71, 188, 0.12); color: var(--purple); border-left: 3px solid var(--purple); }
+.imperial-age { background: rgba(212, 168, 67, 0.12); color: var(--gold); border-left: 3px solid var(--gold); }
+.verdict { background: rgba(76, 175, 80, 0.12); color: var(--green); border-left: 3px solid var(--green); }
+
+.ai-bullets {
+    list-style: none;
+    padding: 0;
+    margin: 4px 0 8px;
+}
+.ai-bullets li {
+    font-size: 13px;
+    padding: 3px 0 3px 16px;
+    position: relative;
+    line-height: 1.5;
+}
+.ai-bullets li::before {
+    content: "\25B8";
+    position: absolute;
+    left: 0;
+    color: var(--gold-dim);
+}
+
 .ai-meta {
     font-size: 11px;
     color: var(--text-dim);

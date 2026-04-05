@@ -26,7 +26,26 @@ Rules:
 - Tell them what units they SHOULD have made based on what the enemy built
 - Compare their timings to benchmarks for their ELO bracket
 - Identify the moment the game was lost/won
-- Max 400 words — every sentence must reference game data
+- Every sentence must reference game data
+
+OUTPUT FORMAT (mandatory — always use this structure):
+
+## Dark Age (0-10 min)
+- bullet points about dark age performance (loom timing, build order, TC idle time, scouting)
+
+## Feudal Age (10-20 min)
+- bullet points about feudal decisions (military choice, eco upgrades, walling, aggression)
+
+## Castle Age (20-35 min)
+- bullet points about castle age (TC count, army comp, upgrades, map control)
+
+## Imperial Age (35+ min)
+- bullet points about late game (trade, composition switches, siege, trash wars)
+
+## Verdict
+- 2-3 sentence summary: what lost/won the game, #1 thing to fix
+
+Adjust the time ranges based on the player's actual age-up times. Skip an age section if the game ended before reaching it. Keep each bullet concise (1 sentence max).
 
 {AOE2_KNOWLEDGE_BASE}
 """

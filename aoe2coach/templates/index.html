@@ -164,10 +164,17 @@
                         : 'Full Game';
 
                     const formatted = data.analysis
+                        .replace(/## (Dark Age.*)/g, '<h3 class="ai-age dark-age">$1</h3>')
+                        .replace(/## (Feudal Age.*)/g, '<h3 class="ai-age feudal-age">$1</h3>')
+                        .replace(/## (Castle Age.*)/g, '<h3 class="ai-age castle-age">$1</h3>')
+                        .replace(/## (Imperial Age.*)/g, '<h3 class="ai-age imperial-age">$1</h3>')
+                        .replace(/## (Verdict.*)/g, '<h3 class="ai-age verdict">$1</h3>')
+                        .replace(/## (.*)/g, '<h3 class="ai-age">$1</h3>')
                         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                        .replace(/\n- /g, '\n<li>')
+                        .replace(/<li>(.*?)(?=\n|$)/g, '<li>$1</li>')
+                        .replace(/(<li>.*<\/li>\n?)+/g, '<ul class="ai-bullets">$&</ul>')
                         .replace(/\n\n/g, '</p><p>')
-                        .replace(/\n- /g, '<br>&bull; ')
-                        .replace(/\n(\d+)\. /g, '<br>$1. ')
                         .replace(/\n/g, '<br>');
 
                     resultDiv.innerHTML = `
