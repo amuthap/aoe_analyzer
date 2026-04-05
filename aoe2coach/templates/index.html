@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AOE2 Game Coach</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <span class="logo-icon">&#9876;</span>
+                    <h1>AOE2 Game Coach</h1>
+                </div>
+                <p class="tagline">Drop your replay. Get better.</p>
+            </div>
+        </header>
+
+        <!-- Upload Section -->
+        <section id="upload-section" class="upload-section">
+            <div class="upload-zone" id="drop-zone">
+                <div class="upload-icon">&#128230;</div>
+                <h2>Drop your replay file here</h2>
+                <p>or click to browse</p>
+                <p class="file-types">.aoe2record &bull; .mgz &bull; .mgx</p>
+                <input type="file" id="file-input" accept=".aoe2record,.mgz,.mgx,.mgl" hidden>
+            </div>
+            <div class="upload-options">
+                <label for="focus-player">Your in-game name (optional):</label>
+                <input type="text" id="focus-player" placeholder="e.g. TheViper" autocomplete="off">
+            </div>
+        </section>
+
+        <!-- Loading -->
+        <section id="loading-section" class="loading-section hidden">
+            <div class="spinner"></div>
+            <p>Analyzing your game...</p>
+        </section>
+
+        <!-- Results -->
+        <section id="results-section" class="results-section hidden">
+            <!-- Game Overview Card -->
+            <div class="card game-overview">
+                <h2>&#127942; Game Overview</h2>
+                <div class="overview-grid" id="overview-grid"></div>
+            </div>
+
+            <!-- Player Reports -->
+            <div id="player-reports"></div>
+
+            <!-- Coaching Tips -->
+            <div class="card tips-card" id="tips-card">
+                <h2>&#128161; Pro Tips</h2>
+                <div id="tips-list"></div>
+            </div>
+
+            <!-- AI Analysis Section -->
+            <div class="card ai-card" id="ai-card">
+                <div class="ai-header">
+                    <h2>&#129302; AI Coach Analysis</h2>
+                    <button class="btn btn-ai" id="ai-btn" onclick="requestAIAnalysis()">
+                        &#9889; Get AI Analysis (Qwen)
+                    </button>
+                </div>
+                <div id="ai-loading" class="hidden">
+                    <div class="spinner small-spinner"></div>
+                    <span>Qwen is analyzing your game...</span>
+                </div>
+                <div id="ai-result" class="hidden">
+                    <div id="ai-text" class="ai-text"></div>
+                    <div id="ai-meta" class="ai-meta"></div>
+                </div>
+                <div id="ai-error" class="hidden">
+                    <p class="ai-error-text"></p>
+                </div>
+            </div>
+
+            <!-- Try Again -->
+            <div class="try-again">
+                <button class="btn" onclick="resetUI()">&#8635; Analyze Another Game</button>
+            </div>
+        </section>
+
+        <!-- Error -->
+        <section id="error-section" class="error-section hidden">
+            <div class="card error-card">
+                <h2>&#9888; Analysis Failed</h2>
+                <p id="error-message"></p>
+                <button class="btn" onclick="resetUI()">Try Again</button>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+        const uploadSection = document.getElementById('upload-section');
+        const loadingSection = document.getElementById('loading-section');
+        const resultsSection = document.getElementById('results-section');
+        const errorSection = document.getElementById('error-section');
+
+        // --- Drag & Drop ---
+        dropZone.addEventListener('click', () => fileInput.click());
+
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('drag-over');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('drag-over');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('drag-over');
+            if (e.dataTransfer.files.length) {
+                handleFile(e.dataTransfer.files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length) {
+                handleFile(e.target.files[0]);
+            }
+        });
+
+        // --- Upload & Analyze ---
+        async function handleFile(file) {
+            showSection('loading');
+
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('focus_player', document.getElementById('focus-player').value);
+
+            try {
+                const resp = await fetch('/analyze', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                const data = await resp.json();
+
+                if (!resp.ok && !data.analysis) {
+                    showError(data.error || 'Unknown error');
+                    return;
+                }
+
+                // Handle parse failures with a friendly message
+                if (data.success === false && data.error) {
+                    showError(data.error);
+                    return;
+                }
+
+                renderResults(data);
+                showSection('results');
+            } catch (err) {
+                showError('Network error: ' + err.message);
+            }
+        }
+
+        // --- AI Analysis ---
+        async function requestAIAnalysis() {
+            const aiBtn = document.getElementById('ai-btn');
+            const aiLoading = document.getElementById('ai-loading');
+            const aiResult = document.getElementById('ai-result');
+            const aiError = document.getElementById('ai-error');
+
+            aiBtn.disabled = true;
+            aiBtn.textContent = 'Analyzing...';
+            aiLoading.classList.remove('hidden');
+            aiResult.classList.add('hidden');
+            aiError.classList.add('hidden');
+
+            try {
+                const formData = new FormData();
+                formData.append('focus_player', document.getElementById('focus-player').value);
+
+                const resp = await fetch('/ai-analyze', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                const data = await resp.json();
+
+                aiLoading.classList.add('hidden');
+
+                if (data.success) {
+                    // Render AI analysis with markdown-like formatting
+                    const formatted = data.analysis
+                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                        .replace(/\n\n/g, '</p><p>')
+                        .replace(/\n- /g, '<br>&bull; ')
+                        .replace(/\n(\d+)\. /g, '<br>$1. ')
+                        .replace(/\n/g, '<br>');
+
+                    document.getElementById('ai-text').innerHTML = `<p>${formatted}</p>`;
+                    document.getElementById('ai-meta').innerHTML =
+                        `<span>Model: ${data.model}</span> &bull; <span>Tokens: ${data.tokens_used}</span>`;
+                    aiResult.classList.remove('hidden');
+                    aiBtn.textContent = '\u2705 AI Analysis Complete';
+                } else {
+                    aiError.querySelector('.ai-error-text').textContent =
+                        data.error || 'AI analysis failed';
+                    aiError.classList.remove('hidden');
+                    aiBtn.textContent = '\u26a1 Retry AI Analysis';
+                    aiBtn.disabled = false;
+                }
+            } catch (err) {
+                aiLoading.classList.add('hidden');
+                aiError.querySelector('.ai-error-text').textContent = 'Network error: ' + err.message;
+                aiError.classList.remove('hidden');
+                aiBtn.textContent = '\u26a1 Retry AI Analysis';
+                aiBtn.disabled = false;
+            }
+        }
+
+        // --- Render Results ---
+        function renderResults(data) {
+            const { analysis, coaching } = data;
+
+            // Overview
+            const overviewGrid = document.getElementById('overview-grid');
+            const avgElo = analysis.players.filter(p => p.elo > 0).reduce((s, p) => s + p.elo, 0) /
+                          Math.max(1, analysis.players.filter(p => p.elo > 0).length);
+            overviewGrid.innerHTML = `
+                <div class="stat-box">
+                    <div class="stat-label">Mode</div>
+                    <div class="stat-value">${analysis.game_type || 'Unknown'}</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Duration</div>
+                    <div class="stat-value">${analysis.duration_display || 'N/A'}</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Players</div>
+                    <div class="stat-value">${analysis.players.length}</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Avg ELO</div>
+                    <div class="stat-value">${avgElo > 0 ? Math.round(avgElo) : 'N/A'}</div>
+                </div>
+            `;
+
+            // Player reports
+            const reportsContainer = document.getElementById('player-reports');
+            reportsContainer.innerHTML = '';
+
+            if (coaching.player_reports) {
+                // Group by team
+                const teams = {};
+                coaching.player_reports.forEach(report => {
+                    const t = report.team || 0;
+                    if (!teams[t]) teams[t] = [];
+                    teams[t].push(report);
+                });
+
+                Object.entries(teams).forEach(([teamId, members]) => {
+                    const teamWon = members.some(m => m.winner);
+                    const teamHeader = document.createElement('div');
+                    teamHeader.className = `team-header ${teamWon ? 'team-won' : 'team-lost'}`;
+                    teamHeader.innerHTML = `<h3>Team ${teamId} ${teamWon ? '&#127942; WINNERS' : '&#9876; DEFEATED'}</h3>`;
+                    reportsContainer.appendChild(teamHeader);
+
+                    members.forEach(report => {
+                    const card = document.createElement('div');
+                    card.className = `card player-card ${report.winner ? 'winner' : 'loser'}`;
+
+                    // Stats badges (ELO, EAPM)
+                    let statsBadgesHtml = `
+                        <div class="player-stats-badges">
+                            ${report.elo ? `<div class="stat-badge elo-badge">ELO: ${report.elo} <span class="tier">${report.elo_tier}</span></div>` : ''}
+                            ${report.eapm ? `<div class="stat-badge eapm-badge">EAPM: ${report.eapm}</div>` : ''}
+                            ${report.resigned ? '<div class="stat-badge resigned-badge">Resigned</div>' : ''}
+                        </div>
+                    `;
+
+                    // Strengths
+                    let strengthsHtml = '';
+                    if (report.strengths && report.strengths.length > 0) {
+                        strengthsHtml = `
+                            <div class="section strengths">
+                                <h4>&#10004; Strengths</h4>
+                                <ul>${report.strengths.map(s => `<li>${s}</li>`).join('')}</ul>
+                            </div>
+                        `;
+                    }
+
+                    // Improvements
+                    let improvementsHtml = '';
+                    if (report.improvements && report.improvements.length > 0) {
+                        improvementsHtml = `
+                            <div class="section improvements">
+                                <h4>&#128200; Areas to Improve</h4>
+                                ${report.improvements.map(imp => `
+                                    <div class="improvement-item severity-${imp.severity}">
+                                        <div class="imp-header">
+                                            <span class="imp-area">${imp.area}</span>
+                                            <span class="severity-badge ${imp.severity}">${imp.severity}</span>
+                                        </div>
+                                        <p class="imp-message">${imp.message}</p>
+                                        <ul class="imp-advice">
+                                            ${imp.advice.map(a => `<li>${a}</li>`).join('')}
+                                        </ul>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        `;
+                    }
+
+                    // Civ advice
+                    let civAdviceHtml = '';
+                    if (report.civ_advice) {
+                        civAdviceHtml = `
+                            <div class="section civ-advice">
+                                <h4>&#127983; ${report.civilization} Tip</h4>
+                                <p>${report.civ_advice}</p>
+                            </div>
+                        `;
+                    }
+
+                    card.innerHTML = `
+                        <div class="player-header">
+                            <div class="player-name-row">
+                                <span class="player-color" style="background: ${getPlayerColor(report.name, coaching.player_reports.indexOf(report))}"></span>
+                                <h3>${report.name}</h3>
+                                <span class="civ-tag">${report.civilization}${report.civ_type ? ' (' + report.civ_type + ')' : ''}</span>
+                            </div>
+                            <div class="grade grade-${report.grade.replace('+', 'plus')}">${report.grade}</div>
+                        </div>
+                        ${statsBadgesHtml}
+                        ${strengthsHtml}
+                        ${improvementsHtml}
+                        ${civAdviceHtml}
+                    `;
+
+                    reportsContainer.appendChild(card);
+                    });
+                });
+            }
+
+            // Tips
+            const tipsList = document.getElementById('tips-list');
+            tipsList.innerHTML = '';
+            if (coaching.tips) {
+                coaching.tips.forEach(tip => {
+                    const tipEl = document.createElement('div');
+                    tipEl.className = 'tip-item';
+                    tipEl.innerHTML = `
+                        <span class="tip-category">${tip.category}</span>
+                        <p>${tip.tip}</p>
+                    `;
+                    tipsList.appendChild(tipEl);
+                });
+            }
+        }
+
+        function getPlayerColor(name, index) {
+            const colors = ['#0055ff', '#ff0000', '#00cc00', '#ffcc00', '#00cccc', '#ff00ff', '#ff8800', '#888888'];
+            return colors[index % colors.length];
+        }
+
+        // --- UI State ---
+        function showSection(section) {
+            uploadSection.classList.add('hidden');
+            loadingSection.classList.add('hidden');
+            resultsSection.classList.add('hidden');
+            errorSection.classList.add('hidden');
+
+            document.getElementById(`${section}-section`).classList.remove('hidden');
+        }
+
+        function showError(msg) {
+            document.getElementById('error-message').textContent = msg;
+            showSection('error');
+        }
+
+        function resetUI() {
+            fileInput.value = '';
+            showSection('upload');
+        }
+    </script>
+</body>
+</html>
