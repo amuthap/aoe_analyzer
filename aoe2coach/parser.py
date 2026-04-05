@@ -40,6 +40,7 @@ class GameAnalysis:
     duration_display: str = "0:00"
     players: list = field(default_factory=list)
     teams: dict = field(default_factory=dict)
+    game_stats: dict = field(default_factory=dict)  # Deep per-player stats
     chats: list = field(default_factory=list)
     raw_errors: list = field(default_factory=list)
 
@@ -56,10 +57,13 @@ def format_time(seconds: float) -> str:
 
 # Subprocess script that does the actual parsing (isolates Rust panics)
 _PARSE_SCRIPT = r'''
-import io, json, sys
+import io, json, sys, os
+from collections import defaultdict
 
 def parse_data(data_bytes):
     from aoe2rec_py.summary import RecSummary
+    from aoe2rec_py.aoe2rec_py import parse_rec
+
     f = io.BytesIO(data_bytes)
     s = RecSummary(f)
 
@@ -67,6 +71,7 @@ def parse_data(data_bytes):
         "duration": s.duration,
         "players": {},
         "chats": [],
+        "game_stats": {},
     }
 
     for pid, pdata in s.players.items():
@@ -94,10 +99,76 @@ def parse_data(data_bytes):
                 "message": chat.message,
             })
 
+    # === DEEP STATS: Extract operations ===
+    try:
+        raw = parse_rec(data_bytes)
+        ops = raw.get("operations", [])
+
+        # Aggregate per-player stats from operations
+        unit_prod = defaultdict(lambda: defaultdict(int))
+        research = defaultdict(list)
+        build_ct = defaultdict(int)
+        wall_ct = defaultdict(int)
+        town_bells = defaultdict(int)
+        flares = defaultdict(int)
+        market = defaultdict(int)
+        resign = {}
+        action_ct = defaultdict(int)
+
+        for op in ops:
+            if "Action" not in op:
+                continue
+            act = op["Action"]
+            time_ms = act.get("world_time", 0)
+            t_min = time_ms / 1000 / 60
+            ad = act.get("action_data", {})
+
+            for atype, adata in ad.items():
+                if atype == "Game":
+                    action_ct[adata.get("player_id", 0)] += 1
+                    continue
+                pid = adata.get("player_id", 0)
+                action_ct[pid] += 1
+
+                if atype == "DeQueue":
+                    unit_prod[pid][adata.get("unit_id", 0)] += adata.get("amount", 1)
+                elif atype == "Research":
+                    research[pid].append((round(t_min, 1), adata.get("technology_type", 0)))
+                elif atype == "Build":
+                    build_ct[pid] += 1
+                elif atype == "Wall":
+                    wall_ct[pid] += 1
+                elif atype == "TownBell":
+                    town_bells[pid] += 1
+                elif atype == "Flare":
+                    flares[pid] += 1
+                elif atype in ("Buy", "Sell"):
+                    market[pid] += 1
+                elif atype == "Resign":
+                    resign[pid] = round(t_min, 1)
+
+        for pid in set(list(unit_prod.keys()) + list(research.keys()) + list(action_ct.keys())):
+            # Convert unit IDs to counts (keep as IDs, game_stats.py will name them)
+            units = {str(uid): count for uid, count in unit_prod[pid].items()}
+            techs = [(t, tid) for t, tid in research.get(pid, [])]
+
+            result["game_stats"][str(pid)] = {
+                "units_trained": units,
+                "research": techs,
+                "buildings_placed": build_ct.get(pid, 0),
+                "walls_built": wall_ct.get(pid, 0),
+                "town_bells": town_bells.get(pid, 0),
+                "flares": flares.get(pid, 0),
+                "market_actions": market.get(pid, 0),
+                "resign_time": resign.get(pid),
+                "total_actions": action_ct.get(pid, 0),
+            }
+    except Exception as e:
+        result["stats_error"] = str(e)[:200]
+
     return result
 
 if __name__ == "__main__":
-    import os
     filepath = sys.argv[1]
     with open(filepath, "rb") as f:
         data = f.read()
@@ -292,3 +363,57 @@ def _populate_analysis(analysis: GameAnalysis, raw: dict):
             "player": chat.get("player", ""),
             "message": chat.get("message", ""),
         })
+
+    # Deep game stats (from operations parsing)
+    raw_stats = raw.get("game_stats", {})
+    if raw_stats:
+        from game_stats import UNIT_NAMES, TECH_NAMES, _categorize_unit
+        for pid_str, pstats in raw_stats.items():
+            # Convert unit IDs to names and categorize
+            units_named = {}
+            unit_cats = {}
+            villager_count = 0
+            military_count = 0
+            for uid_str, count in pstats.get("units_trained", {}).items():
+                uid = int(uid_str)
+                uname = UNIT_NAMES.get(uid, f"Unit#{uid}")
+                units_named[uname] = count
+                cat = _categorize_unit(uid)
+                unit_cats[cat] = unit_cats.get(cat, 0) + count
+                if uid == 83:
+                    villager_count = count
+                elif cat not in ("Villager", "Trade", "Naval"):
+                    military_count += count
+
+            # Convert tech IDs to names + extract age times
+            research_named = []
+            age_times = {}
+            eco_upgrades = {}
+            for t_min, tid in pstats.get("research", []):
+                tname = TECH_NAMES.get(tid, f"Tech#{tid}")
+                research_named.append({"time": t_min, "name": tname})
+                if tid == 100: age_times["feudal"] = t_min
+                elif tid == 101: age_times["castle"] = t_min
+                elif tid == 102: age_times["imperial"] = t_min
+                elif tid == 22: eco_upgrades["loom"] = t_min
+                elif tid == 199: eco_upgrades["double_bit_axe"] = t_min
+                elif tid == 202: eco_upgrades["horse_collar"] = t_min
+                elif tid == 65: eco_upgrades["wheelbarrow"] = t_min
+                elif tid == 219: eco_upgrades["hand_cart"] = t_min
+
+            analysis.game_stats[pid_str] = {
+                "units_trained": units_named,
+                "unit_categories": unit_cats,
+                "research_timeline": research_named,
+                "age_times": age_times,
+                "eco_upgrades": eco_upgrades,
+                "buildings_placed": pstats.get("buildings_placed", 0),
+                "walls_built": pstats.get("walls_built", 0),
+                "town_bells": pstats.get("town_bells", 0),
+                "flares": pstats.get("flares", 0),
+                "market_actions": pstats.get("market_actions", 0),
+                "resign_time": pstats.get("resign_time"),
+                "total_actions": pstats.get("total_actions", 0),
+                "villager_count": villager_count,
+                "military_count": military_count,
+            }

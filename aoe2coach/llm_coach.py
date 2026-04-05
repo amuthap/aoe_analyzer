@@ -3,6 +3,7 @@
 import json
 from openai import OpenAI
 from knowledge_base import AOE2_KNOWLEDGE_BASE, get_civ_matchup_context, get_player_specific_context
+from game_stats import format_player_stats_for_ai
 
 # LLM Config
 LLM_BASE_URL = "http://llm.hyperbig.com:4000"
@@ -11,16 +12,21 @@ LLM_MODEL = "qwen/qwen3.6-plus"
 
 client = OpenAI(base_url=LLM_BASE_URL, api_key=LLM_API_KEY)
 
-SYSTEM_PROMPT = f"""You are an expert Age of Empires 2: Definitive Edition coach with deep knowledge of all 53 civilizations, tech trees, unit counters, build orders, and meta strategies.
+SYSTEM_PROMPT = f"""You are a top-100 Age of Empires 2 player reviewing a recorded game. You have access to the FULL replay data: every unit trained, every research completed, every building placed, exact age-up times, and army compositions.
 
-You analyze SPECIFIC game data and give GAME-SPECIFIC advice — never generic tips. Reference actual numbers from the game (EAPM, ELO, duration, civs, teams). Tell the player exactly what they should have done differently in THIS game.
+Analyze this game like a pro coach watching the recording. Reference SPECIFIC data points:
+- "You trained 163 Archers but only 33 Spearmen — against Khmer elephants you needed Halberdiers"
+- "Your Double-Bit Axe came at 15.3min — it should be instant on hitting Feudal at 7-8min"
+- "You rang town bell 8 times — that means you had no walls and kept getting raided"
+- "You trained 19 War Wagons as Persians — War Wagons are a Korean unit, not yours"
 
-Your style:
-- Be direct, specific, and actionable
-- Reference the player's ACTUAL civ bonuses and unique units by name
-- Explain what counters the opponent had and what the player should have built
-- Give concrete timing targets for their ELO bracket
-- Max 300 words — dense, no fluff
+Rules:
+- Reference ACTUAL numbers from the data (unit counts, research timings, age-up times)
+- Point out specific mistakes with exact timestamps
+- Tell them what units they SHOULD have made based on what the enemy built
+- Compare their timings to benchmarks for their ELO bracket
+- Identify the moment the game was lost/won
+- Max 400 words — every sentence must reference game data
 
 {AOE2_KNOWLEDGE_BASE}
 """
@@ -43,45 +49,73 @@ def _build_all_players_block(analysis: dict, coaching: dict) -> str:
 
 
 def _build_player_deep_context(player_name: str, analysis: dict, coaching: dict) -> str:
-    """Build deep context for a specific player including matchup data."""
+    """Build deep context for a specific player including full game stats."""
     lines = []
     player = None
-    for p in analysis.get("players", []):
+    player_index = None
+    for i, p in enumerate(analysis.get("players", [])):
         if player_name.lower() in p["name"].lower():
             player = p
+            player_index = i
             break
     if not player:
         return f"Player '{player_name}' not found in game data."
 
-    # Player's own context
+    duration_min = analysis.get("duration_seconds", 0) / 60
+
+    # Player's ELO-level context
     lines.append(get_player_specific_context(
         player["civilization"], player.get("elo", 0),
-        player.get("eapm", 0),
-        analysis.get("duration_seconds", 0) / 60,
+        player.get("eapm", 0), duration_min,
         not player.get("resigned", True)
     ))
 
-    # Opponents
+    # === DEEP GAME STATS ===
+    game_stats = analysis.get("game_stats", {})
+    # Find player's stats by matching player index+1 (player IDs are 1-based)
+    pid_str = str(player_index + 1) if player_index is not None else None
+    # Try to find by matching player name in stats keys
+    if pid_str and pid_str in game_stats:
+        pstats = game_stats[pid_str]
+        lines.append("")
+        lines.append(format_player_stats_for_ai(player_name, pstats, duration_min))
+    else:
+        # Try all keys
+        for pid_key, pstats in game_stats.items():
+            lines.append("")
+            lines.append(f"(Stats key {pid_key} available but couldn't match to player)")
+            break
+
+    # Opponent civs (from player's perspective)
     player_team = player.get("team")
     opponents = [p for p in analysis["players"] if p.get("team") != player_team]
     opp_civs = [p["civilization"] for p in opponents]
     if opp_civs:
         lines.append("")
-        lines.append(get_civ_matchup_context(player["civilization"], opp_civs[0] if len(opp_civs) == 1 else opp_civs[0]))
-        # Add all opponent civs
-        for opp in opponents:
-            lines.append(f"  Opponent: {opp['name']} ({opp['civilization']}) ELO:{opp.get('elo',0)} EAPM:{opp.get('eapm',0)}")
+        lines.append(f"Enemy civs you faced: {', '.join(opp_civs)}")
+        lines.append(get_civ_matchup_context(player["civilization"], opp_civs[0]))
 
-    # Coaching report
+        # Include opponent army composition if available
+        for oi, opp in enumerate(opponents):
+            opp_pid = None
+            for j, ap in enumerate(analysis["players"]):
+                if ap["name"] == opp["name"]:
+                    opp_pid = str(j + 1)
+                    break
+            if opp_pid and opp_pid in game_stats:
+                os = game_stats[opp_pid]
+                opp_units = os.get("units_trained", {})
+                top_opp = [(n, c) for n, c in sorted(opp_units.items(), key=lambda x: -x[1]) if n != "Villager"][:4]
+                if top_opp:
+                    lines.append(f"  {opp['name']} built: {', '.join(f'{n}({c})' for n, c in top_opp)}")
+
+    # Civ bonuses
     for r in coaching.get("player_reports", []):
         if player_name.lower() in r.get("name", "").lower():
-            lines.append(f"\nGrade: {r.get('grade','?')}")
-            for imp in r.get("improvements", []):
-                lines.append(f"[{imp['severity'].upper()}] {imp['area']}: {imp['message']}")
             if r.get("civ_bonuses"):
-                lines.append(f"Civ bonuses: {'; '.join(r['civ_bonuses'][:3])}")
+                lines.append(f"\nYour civ bonuses: {'; '.join(r['civ_bonuses'][:3])}")
             if r.get("unique_units"):
-                lines.append(f"Unique units: {', '.join(r['unique_units'])}")
+                lines.append(f"Your unique units: {', '.join(r['unique_units'])}")
             break
 
     return "\n".join(lines)
@@ -148,13 +182,17 @@ def get_ai_analysis(analysis_dict: dict, coaching_dict: dict,
                 f"Game: {game_summary}\n\n"
                 f"=== COACHING FOR: {target} ===\n{deep_context}\n\n"
                 f"Teammates:\n{teammate_lines}\n\n"
-                f"Coach {target} from THEIR perspective only. "
-                f"Talk directly to them as 'you'. Focus on:\n"
-                f"1. Their EAPM and what it means for their gameplay\n"
-                f"2. Their civ choice - did they use their unique bonuses/units well?\n"
-                f"3. What they personally should practice to improve\n"
-                f"4. How they could have supported their teammates better\n"
-                f"Do NOT analyze opponents or the overall game. This is a personal coaching session."
+                f"You are reviewing this game as a pro coach watching {target}'s recording. "
+                f"Talk directly to them as 'you'. Analyze their ACTUAL game data:\n"
+                f"1. Their exact age-up times vs benchmarks for their ELO\n"
+                f"2. Their army composition — did they make the right units? Reference exact counts\n"
+                f"3. Their eco upgrade timings — were Double-Bit Axe, Horse Collar on time?\n"
+                f"4. Their civ bonuses — did they actually use their unique strengths?\n"
+                f"5. When they got raided (town bells), what they should have done\n"
+                f"6. What they should have built differently based on what enemies made\n"
+                f"Frame opponents from the player's perspective only: "
+                f"'they built 90 knights so you needed halbs, not more archers'.\n"
+                f"Reference specific numbers from the data. Every claim must have evidence."
             )
         elif mode == "team" and target:
             team_context = _build_team_context(target, analysis_dict, coaching_dict)
