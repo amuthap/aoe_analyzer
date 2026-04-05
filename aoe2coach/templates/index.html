@@ -252,6 +252,10 @@
                     const card = document.createElement('div');
                     card.className = `card player-card ${report.winner ? 'winner' : 'loser'}`;
 
+                    // Find this player's deep stats
+                    const playerIdx = analysis.players.findIndex(p => p.name === report.name);
+                    const gs = analysis.game_stats ? analysis.game_stats[String(playerIdx + 1)] : null;
+
                     let statsBadgesHtml = `
                         <div class="player-stats-badges">
                             ${report.elo ? `<div class="stat-badge elo-badge">ELO: ${report.elo} <span class="tier">${report.elo_tier}</span></div>` : ''}
@@ -260,6 +264,57 @@
                             ${report.meta_tier ? `<div class="stat-badge meta-badge">Meta: ${report.meta_tier}</div>` : ''}
                         </div>
                     `;
+
+                    // --- Deep Game Stats Section ---
+                    let deepStatsHtml = '';
+                    if (gs) {
+                        // Age-up times
+                        const at = gs.age_times || {};
+                        let ageHtml = '';
+                        if (Object.keys(at).length > 0) {
+                            const ageParts = [];
+                            if (at.feudal) ageParts.push(`<span class="age-badge feudal">Feudal ${at.feudal}m</span>`);
+                            if (at.castle) ageParts.push(`<span class="age-badge castle">Castle ${at.castle}m</span>`);
+                            if (at.imperial) ageParts.push(`<span class="age-badge imperial">Imp ${at.imperial}m</span>`);
+                            ageHtml = `<div class="ds-row"><span class="ds-label">Age-ups</span><div class="ds-ages">${ageParts.join(' ')}</div></div>`;
+                        }
+
+                        // Units trained
+                        const units = gs.units_trained || {};
+                        const unitEntries = Object.entries(units).filter(([n]) => n !== 'Villager').sort((a,b) => b[1]-a[1]);
+                        let unitsHtml = '';
+                        if (unitEntries.length > 0) {
+                            const unitBars = unitEntries.slice(0, 5).map(([name, count]) => {
+                                const maxCount = unitEntries[0][1];
+                                const pct = Math.round((count / maxCount) * 100);
+                                return `<div class="unit-bar"><span class="unit-name">${name}</span><div class="unit-bar-fill" style="width:${pct}%"></div><span class="unit-count">${count}</span></div>`;
+                            }).join('');
+                            unitsHtml = `<div class="ds-row"><span class="ds-label">Army</span><div class="unit-bars">${unitBars}</div></div>`;
+                        }
+
+                        // Villager + military totals
+                        const vilCount = gs.villager_count || 0;
+                        const milCount = gs.military_count || 0;
+                        let totalsHtml = `<div class="ds-row"><span class="ds-label">Production</span><div class="ds-inline"><span class="ds-chip vil-chip">Vils: ${vilCount}</span><span class="ds-chip mil-chip">Military: ${milCount}</span><span class="ds-chip bld-chip">Buildings: ${gs.buildings_placed || 0}</span></div></div>`;
+
+                        // Eco upgrades
+                        const eco = gs.eco_upgrades || {};
+                        let ecoHtml = '';
+                        if (Object.keys(eco).length > 0) {
+                            const ecoParts = Object.entries(eco).map(([k, v]) => `${k.replace(/_/g,' ')} @${v}m`).join(', ');
+                            ecoHtml = `<div class="ds-row"><span class="ds-label">Eco upgrades</span><span class="ds-text">${ecoParts}</span></div>`;
+                        }
+
+                        // Events
+                        const events = [];
+                        if (gs.town_bells > 0) events.push(`Town bell ${gs.town_bells}x`);
+                        if (gs.flares > 0) events.push(`Flares ${gs.flares}x`);
+                        if (gs.market_actions > 0) events.push(`Market ${gs.market_actions}x`);
+                        if (gs.walls_built > 0) events.push(`Walls ${gs.walls_built}x`);
+                        let eventsHtml = events.length > 0 ? `<div class="ds-row"><span class="ds-label">Events</span><span class="ds-text">${events.join(' &bull; ')}</span></div>` : '';
+
+                        deepStatsHtml = `<div class="deep-stats">${ageHtml}${unitsHtml}${totalsHtml}${ecoHtml}${eventsHtml}</div>`;
+                    }
 
                     let strengthsHtml = '';
                     if (report.strengths && report.strengths.length > 0) {
@@ -291,7 +346,7 @@
                             </div>
                             <div class="grade grade-${report.grade.replace('+', 'plus')}">${report.grade}</div>
                         </div>
-                        ${statsBadgesHtml}${strengthsHtml}${improvementsHtml}${civAdviceHtml}
+                        ${statsBadgesHtml}${deepStatsHtml}${strengthsHtml}${improvementsHtml}${civAdviceHtml}
                     `;
                     reportsContainer.appendChild(card);
                 });

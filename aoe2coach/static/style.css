@@ -577,6 +577,85 @@ body {
 
 .meta-badge { background: rgba(171, 71, 188, 0.12); color: var(--purple); }
 
+/* Deep Game Stats */
+.deep-stats {
+    background: var(--bg-dark);
+    border-radius: 8px;
+    padding: 14px;
+    margin-bottom: 16px;
+    border: 1px solid var(--border);
+}
+
+.ds-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+.ds-row:last-child { margin-bottom: 0; }
+
+.ds-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-dim);
+    min-width: 85px;
+    padding-top: 3px;
+    flex-shrink: 0;
+}
+
+.ds-ages { display: flex; gap: 6px; flex-wrap: wrap; }
+
+.ds-inline { display: flex; gap: 6px; flex-wrap: wrap; }
+
+.ds-chip {
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+}
+.vil-chip { background: rgba(76, 175, 80, 0.15); color: var(--green); }
+.mil-chip { background: rgba(239, 83, 80, 0.15); color: var(--red); }
+.bld-chip { background: rgba(66, 165, 245, 0.15); color: var(--blue); }
+
+.ds-text {
+    font-size: 12px;
+    color: var(--text);
+    line-height: 1.6;
+}
+
+/* Unit production bars */
+.unit-bars { flex: 1; }
+
+.unit-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 3px;
+}
+
+.unit-name {
+    font-size: 12px;
+    color: var(--text);
+    min-width: 100px;
+    text-align: right;
+}
+
+.unit-bar-fill {
+    height: 14px;
+    background: linear-gradient(90deg, var(--gold-dim), var(--gold));
+    border-radius: 3px;
+    min-width: 4px;
+    flex-shrink: 0;
+}
+
+.unit-count {
+    font-size: 12px;
+    color: var(--gold-light);
+    font-weight: 700;
+    min-width: 30px;
+}
+
 /* Utility */
 .hidden { display: none !important; }
 
