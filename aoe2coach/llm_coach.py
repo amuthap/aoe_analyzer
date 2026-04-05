@@ -130,13 +130,31 @@ def get_ai_analysis(analysis_dict: dict, coaching_dict: dict,
 
         if mode == "player" and target:
             deep_context = _build_player_deep_context(target, analysis_dict, coaching_dict)
+
+            # Build teammate context
+            player_team = None
+            for p in analysis_dict.get("players", []):
+                if target.lower() in p["name"].lower():
+                    player_team = p.get("team")
+                    break
+            teammates = [p for p in analysis_dict["players"]
+                         if p.get("team") == player_team and target.lower() not in p["name"].lower()]
+            teammate_lines = "\n".join(
+                f"  {t['name']} ({t['civilization']}) ELO:{t.get('elo',0)} EAPM:{t.get('eapm',0)}"
+                for t in teammates
+            ) if teammates else "None (1v1)"
+
             user_prompt = (
-                f"Game: {game_summary}\nAll players:\n{all_players}\n\n"
-                f"=== DEEP ANALYSIS FOR: {target} ===\n{deep_context}\n\n"
-                f"Give {target} specific coaching for THIS game. What should they have built "
-                f"against these specific opponents? What were their civ's strengths they missed? "
-                f"What units counter the opponents' likely composition? Give exact timing targets "
-                f"for their ELO bracket."
+                f"Game: {game_summary}\n\n"
+                f"=== COACHING FOR: {target} ===\n{deep_context}\n\n"
+                f"Teammates:\n{teammate_lines}\n\n"
+                f"Coach {target} from THEIR perspective only. "
+                f"Talk directly to them as 'you'. Focus on:\n"
+                f"1. Their EAPM and what it means for their gameplay\n"
+                f"2. Their civ choice - did they use their unique bonuses/units well?\n"
+                f"3. What they personally should practice to improve\n"
+                f"4. How they could have supported their teammates better\n"
+                f"Do NOT analyze opponents or the overall game. This is a personal coaching session."
             )
         elif mode == "team" and target:
             team_context = _build_team_context(target, analysis_dict, coaching_dict)
