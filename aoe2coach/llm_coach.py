@@ -19,6 +19,8 @@ Analyze this game like a pro coach watching the recording. Reference SPECIFIC da
 - "Your Double-Bit Axe came at 15.3min — it should be instant on hitting Feudal at 7-8min"
 - "You rang town bell 8 times — that means you had no walls and kept getting raided"
 - "You trained 19 War Wagons as Persians — War Wagons are a Korean unit, not yours"
+- "On Michi, you needed siege to break through walls — your 0 Bombard Cannons is why you stalled"
+- "This is DM (Death Match) — you start with max resources, so build order doesn't apply, army comp is everything"
 
 Rules:
 - Reference ACTUAL numbers from the data (unit counts, research timings, age-up times)
@@ -27,6 +29,9 @@ Rules:
 - Compare their timings to benchmarks for their ELO bracket
 - Identify the moment the game was lost/won
 - Every sentence must reference game data
+- Factor in the MAP: Arabia=open/aggressive, Arena=walled/boom, Black Forest=chokepoints, Michi=late game siege, Islands=naval
+- Factor in GAME MODE: if DM (Death Match), skip build order advice — focus on army comp and micro. If RM (Random Map), build order matters
+- Factor in SPEED: Fast speed means less reaction time, Normal gives more room for micro
 
 OUTPUT FORMAT (mandatory — always use this structure):
 
@@ -52,9 +57,21 @@ Adjust the time ranges based on the player's actual age-up times. Skip an age se
 
 
 def _build_game_summary(analysis: dict) -> str:
-    """One-line game summary."""
-    return (f"{analysis.get('game_type','?')} | {analysis.get('duration_display','?')} | "
-            f"{len(analysis.get('players',[]))} players")
+    """One-line game summary with map, speed, lobby context."""
+    parts = [
+        analysis.get('game_type', '?'),
+        f"Map: {analysis.get('map_name', 'Unknown')}",
+        f"Duration: {analysis.get('duration_display', '?')}",
+        f"Speed: {analysis.get('game_speed', 'Normal')}",
+        f"{len(analysis.get('players',[]))} players",
+    ]
+    lobby = analysis.get('lobby_name', '')
+    if lobby:
+        parts.append(f"Lobby: {lobby}")
+    if analysis.get('ranked'):
+        parts.append("RANKED")
+    parts.append(f"Pop: {analysis.get('pop_limit', 200)}")
+    return " | ".join(parts)
 
 
 def _build_all_players_block(analysis: dict, coaching: dict) -> str:
@@ -141,28 +158,39 @@ def _build_player_deep_context(player_name: str, analysis: dict, coaching: dict)
 
 
 def _build_team_context(team_id: str, analysis: dict, coaching: dict) -> str:
-    """Build context for an entire team."""
+    """Build context for an entire team with deep stats."""
     lines = []
     team_players = [p for p in analysis["players"] if str(p.get("team")) == str(team_id)]
     if not team_players:
         return f"Team {team_id} not found."
 
+    game_stats = analysis.get("game_stats", {})
+    duration_min = analysis.get("duration_seconds", 0) / 60
     won = not any(p.get("resigned") for p in team_players)
     lines.append(f"Team {team_id} ({'WON' if won else 'LOST'}):")
 
     for p in team_players:
-        lines.append(f"  {p['name']} | {p['civilization']} | ELO:{p.get('elo',0)} EAPM:{p.get('eapm',0)}")
-        lines.append(f"    " + get_player_specific_context(
-            p["civilization"], p.get("elo", 0), p.get("eapm", 0),
-            analysis.get("duration_seconds", 0) / 60, not p.get("resigned", True)
-        ).replace("\n", "\n    "))
+        lines.append(f"\n  {p['name']} | {p['civilization']} | ELO:{p.get('elo',0)} EAPM:{p.get('eapm',0)}")
+        # Add deep stats for each team member
+        pidx = next((i for i, ap in enumerate(analysis["players"]) if ap["name"] == p["name"]), None)
+        pid_str = str(pidx + 1) if pidx is not None else None
+        if pid_str and pid_str in game_stats:
+            ps = game_stats[pid_str]
+            lines.append(f"    " + format_player_stats_for_ai(p["name"], ps, duration_min).replace("\n", "\n    "))
 
-    # Opponents
+    # Opponent army compositions
     opp_players = [p for p in analysis["players"] if str(p.get("team")) != str(team_id)]
     if opp_players:
-        lines.append(f"\nOpponents (Team {opp_players[0].get('team','?')}):")
+        lines.append(f"\nOpponents:")
         for p in opp_players:
-            lines.append(f"  {p['name']} | {p['civilization']} | ELO:{p.get('elo',0)} EAPM:{p.get('eapm',0)}")
+            pidx = next((i for i, ap in enumerate(analysis["players"]) if ap["name"] == p["name"]), None)
+            pid_str = str(pidx + 1) if pidx is not None else None
+            opp_units = ""
+            if pid_str and pid_str in game_stats:
+                units = game_stats[pid_str].get("units_trained", {})
+                top = [(n, c) for n, c in sorted(units.items(), key=lambda x: -x[1]) if n != "Villager"][:4]
+                opp_units = f" | Army: {', '.join(f'{n}({c})' for n, c in top)}" if top else ""
+            lines.append(f"  {p['name']} ({p['civilization']}){opp_units}")
 
     return "\n".join(lines)
 
