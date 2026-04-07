@@ -3,7 +3,7 @@
 import json
 from openai import OpenAI
 from knowledge_base import AOE2_KNOWLEDGE_BASE, get_civ_matchup_context, get_player_specific_context
-from game_stats import format_player_stats_for_ai
+from game_stats import format_player_stats_for_ai, format_engagements_for_ai
 
 # LLM Config
 LLM_BASE_URL = "http://llm.hyperbig.com:4000"
@@ -154,6 +154,19 @@ def _build_player_deep_context(player_name: str, analysis: dict, coaching: dict)
                 lines.append(f"Your unique units: {', '.join(r['unique_units'])}")
             break
 
+    # Battle engagements involving this player
+    engagements = analysis.get("engagements", [])
+    if engagements and player_index is not None:
+        pid = player_index + 1
+        my_fights = [e for e in engagements if e.get("p1") == pid or e.get("p2") == pid]
+        if my_fights:
+            pid_name = {i+1: p["name"] for i, p in enumerate(analysis["players"])}
+            lines.append(f"\nYour battles ({len(my_fights)} engagements):")
+            for e in my_fights:
+                opponent_pid = e["p2"] if e["p1"] == pid else e["p1"]
+                opp_name = pid_name.get(opponent_pid, "?")
+                lines.append(f"  [{e['time']}-{e['time']+3}min] vs {opp_name}")
+
     return "\n".join(lines)
 
 
@@ -243,20 +256,26 @@ def get_ai_analysis(analysis_dict: dict, coaching_dict: dict,
             )
         elif mode == "team" and target:
             team_context = _build_team_context(target, analysis_dict, coaching_dict)
+            battle_context = format_engagements_for_ai(
+                analysis_dict.get("engagements", []), analysis_dict.get("players", []))
             user_prompt = (
                 f"Game: {game_summary}\nAll players:\n{all_players}\n\n"
                 f"=== TEAM ANALYSIS ===\n{team_context}\n\n"
-                f"Analyze this team's performance together. How was their coordination? "
-                f"Did the flank/pocket roles make sense for their civs? What should they "
-                f"have done differently as a team? Who was the weak link and how can they improve?"
+                f"{battle_context}\n\n"
+                f"Analyze this team's performance together. Who fought who? "
+                f"Did the flank/pocket roles make sense for their civs? How was coordination? "
+                f"Reference the battle timeline. Who was the weak link?"
             )
         else:
             # Full game
             player_name = focus_player or target or ""
+            battle_context = format_engagements_for_ai(
+                analysis_dict.get("engagements", []), analysis_dict.get("players", []))
             user_prompt = (
                 f"Game: {game_summary}\nAll players:\n{all_players}\n\n"
-                f"Analyze this full game. Who played well and why? Who struggled? "
-                f"What decided the game — was it eco, military, or strategy? "
+                f"{battle_context}\n\n"
+                f"Analyze this full game. Who fought who? Who played well and why? "
+                f"Reference the battle timeline and engagement data. "
                 f"Give the top 3 takeaways."
             )
             if player_name:

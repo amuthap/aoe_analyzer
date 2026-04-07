@@ -63,6 +63,8 @@ class GameAnalysis:
     players: list = field(default_factory=list)
     teams: dict = field(default_factory=dict)
     game_stats: dict = field(default_factory=dict)  # Deep per-player stats
+    engagements: list = field(default_factory=list)  # [{time, p1, p2}]
+    start_positions: dict = field(default_factory=dict)  # {pid: {x, y}}
     chats: list = field(default_factory=list)
     raw_errors: list = field(default_factory=list)
 
@@ -152,6 +154,7 @@ def parse_data(data_bytes):
         market = defaultdict(int)
         resign = {}
         action_ct = defaultdict(int)
+        pos_buckets = defaultdict(lambda: defaultdict(list))  # time_bucket -> pid -> [(x,y)]
 
         for op in ops:
             if "Action" not in op:
@@ -184,6 +187,64 @@ def parse_data(data_bytes):
                     market[pid] += 1
                 elif atype == "Resign":
                     resign[pid] = round(t_min, 1)
+
+                # Track positions for engagement detection
+                x = adata.get("x", 0)
+                y = adata.get("y", 0)
+                if pid > 0 and x > 0 and y > 0 and atype in ("Move", "Interact", "Patrol", "DeAttackMove"):
+                    bucket = int(t_min // 3) * 3  # 3-min buckets
+                    pos_buckets[bucket][pid].append((round(x), round(y)))
+
+        # === ENGAGEMENT DETECTION ===
+        # Find when players from opposite teams had actions near each other
+        # Build team map from player data
+        team_map = {}
+        for pid_str, pdata in result["players"].items():
+            team_map[int(pid_str)] = pdata.get("resolved_team_id", 0)
+
+        engagements = []
+        for bucket, players_in_bucket in sorted(pos_buckets.items()):
+            for pid1 in players_in_bucket:
+                for pid2 in players_in_bucket:
+                    if pid1 >= pid2 or team_map.get(pid1) == team_map.get(pid2):
+                        continue
+                    pts1, pts2 = players_in_bucket[pid1], players_in_bucket[pid2]
+                    # Sample up to 10 positions for performance
+                    for x1, y1 in pts1[:10]:
+                        for x2, y2 in pts2[:10]:
+                            if ((x1-x2)**2 + (y1-y2)**2) < 900:  # ~30 tiles
+                                engagements.append({"time": bucket, "p1": pid1, "p2": pid2})
+                                break
+                        else:
+                            continue
+                        break
+
+        # Deduplicate engagements to ~6min windows
+        seen = set()
+        deduped = []
+        for e in engagements:
+            key = (e["time"] // 6 * 6, min(e["p1"], e["p2"]), max(e["p1"], e["p2"]))
+            if key not in seen:
+                seen.add(key)
+                deduped.append(e)
+        result["engagements"] = deduped
+
+        # === PLAYER STARTING POSITIONS ===
+        start_pos = {}
+        for op in ops[:500]:  # Check first ~500 ops
+            if "Action" not in op:
+                continue
+            act = op["Action"]
+            if act.get("world_time", 0) > 30000:
+                break
+            ad = act.get("action_data", {})
+            for atype, adata in ad.items():
+                pid = adata.get("player_id", 0)
+                if pid > 0 and pid not in start_pos:
+                    x, y = adata.get("x", 0), adata.get("y", 0)
+                    if x > 0 and y > 0:
+                        start_pos[pid] = {"x": round(x, 1), "y": round(y, 1)}
+        result["start_positions"] = {str(k): v for k, v in start_pos.items()}
 
         for pid in set(list(unit_prod.keys()) + list(research.keys()) + list(action_ct.keys())):
             # Convert unit IDs to counts (keep as IDs, game_stats.py will name them)
@@ -430,6 +491,10 @@ def _populate_analysis(analysis: GameAnalysis, raw: dict):
             "player": chat.get("player", ""),
             "message": chat.get("message", ""),
         })
+
+    # Engagements and starting positions
+    analysis.engagements = raw.get("engagements", [])
+    analysis.start_positions = raw.get("start_positions", {})
 
     # Deep game stats (from operations parsing)
     raw_stats = raw.get("game_stats", {})

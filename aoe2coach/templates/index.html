@@ -69,6 +69,12 @@
                 <div id="tips-list"></div>
             </div>
 
+            <!-- Battle Timeline -->
+            <div class="card" id="battle-card">
+                <h2>&#9876; Battle Timeline</h2>
+                <div id="battle-timeline"></div>
+            </div>
+
             <div class="try-again">
                 <button class="btn" onclick="resetUI()">&#8635; Analyze Another Game</button>
             </div>
@@ -375,6 +381,54 @@
                     el.innerHTML = `<span class="tip-category">${tip.category}</span><p>${tip.tip}</p>`;
                     tipsList.appendChild(el);
                 });
+            }
+
+            // Battle timeline
+            const battleDiv = document.getElementById('battle-timeline');
+            const engagements = analysis.engagements || [];
+            const battleCard = document.getElementById('battle-card');
+            if (engagements.length === 0) {
+                battleCard.classList.add('hidden');
+            } else {
+                battleCard.classList.remove('hidden');
+                const pidName = {};
+                const pidTeam = {};
+                analysis.players.forEach((p, i) => { pidName[i+1] = p.name; pidTeam[i+1] = p.team; });
+
+                // Count matchup frequency
+                const matchups = {};
+                engagements.forEach(e => {
+                    const key = [Math.min(e.p1,e.p2), Math.max(e.p1,e.p2)].join('-');
+                    matchups[key] = (matchups[key] || 0) + 1;
+                });
+
+                // Render matchup summary
+                let matchupHtml = '<div class="matchup-summary">';
+                Object.entries(matchups).sort((a,b) => b[1]-a[1]).forEach(([key, count]) => {
+                    const [p1, p2] = key.split('-').map(Number);
+                    const n1 = pidName[p1] || '?', n2 = pidName[p2] || '?';
+                    const barW = Math.round((count / engagements.length) * 100);
+                    matchupHtml += `<div class="matchup-row">
+                        <span class="matchup-names">${n1.substring(0,15)} vs ${n2.substring(0,15)}</span>
+                        <div class="matchup-bar-bg"><div class="matchup-bar-fill" style="width:${barW}%"></div></div>
+                        <span class="matchup-count">${count}x</span>
+                    </div>`;
+                });
+                matchupHtml += '</div>';
+
+                // Render timeline dots
+                const maxTime = Math.max(...engagements.map(e => e.time), 1);
+                let dotsHtml = '<div class="battle-dots">';
+                engagements.forEach(e => {
+                    const left = Math.round((e.time / maxTime) * 100);
+                    const n1 = (pidName[e.p1] || '?').substring(0,10);
+                    const n2 = (pidName[e.p2] || '?').substring(0,10);
+                    dotsHtml += `<div class="battle-dot" style="left:${left}%" title="${e.time}min: ${n1} vs ${n2}"></div>`;
+                });
+                dotsHtml += '<div class="battle-axis"><span>0 min</span><span>${analysis.duration_display}</span></div>';
+                dotsHtml += '</div>';
+
+                battleDiv.innerHTML = matchupHtml + dotsHtml;
             }
         }
 

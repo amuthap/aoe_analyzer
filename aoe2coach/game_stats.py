@@ -386,3 +386,35 @@ def format_player_stats_for_ai(player_name: str, player_stats: dict, duration_mi
         lines.append(f"Events: {' | '.join(events)}")
 
     return "\n".join(lines)
+
+
+def format_engagements_for_ai(engagements: list, players: list) -> str:
+    """Format engagement data for the AI prompt."""
+    if not engagements:
+        return ""
+
+    # Build pid -> name map
+    pid_name = {}
+    for i, p in enumerate(players):
+        pid_name[i + 1] = p.get("name", f"Player {i+1}")
+
+    lines = ["=== BATTLE TIMELINE (who fought who) ==="]
+    for e in engagements:
+        t = e.get("time", 0)
+        n1 = pid_name.get(e.get("p1", 0), "?")
+        n2 = pid_name.get(e.get("p2", 0), "?")
+        lines.append(f"  [{t}-{t+3}min] {n1} vs {n2}")
+
+    # Summarize matchups
+    from collections import Counter
+    matchup_counts = Counter()
+    for e in engagements:
+        key = (min(e["p1"], e["p2"]), max(e["p1"], e["p2"]))
+        matchup_counts[key] += 1
+
+    lines.append("\nMatchup frequency:")
+    for (p1, p2), count in matchup_counts.most_common():
+        n1, n2 = pid_name.get(p1, "?"), pid_name.get(p2, "?")
+        lines.append(f"  {n1} vs {n2}: {count} engagements")
+
+    return "\n".join(lines)
