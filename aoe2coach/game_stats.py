@@ -388,6 +388,112 @@ def format_player_stats_for_ai(player_name: str, player_stats: dict, duration_mi
     return "\n".join(lines)
 
 
+# Unit counter recommendations: what to build against each unit type
+COUNTER_ADVICE = {
+    "Knight": {"counter": "Pikeman/Halberdier", "also": "Camel Rider, Monk (small groups)", "avoid": "Archers alone"},
+    "Cavalier": {"counter": "Halberdier", "also": "Heavy Camel, Monk", "avoid": "Light infantry"},
+    "Paladin": {"counter": "Halberdier (massed)", "also": "Heavy Camel, Kamayuk", "avoid": "Anything not anti-cav"},
+    "Crossbowman": {"counter": "Skirmisher, Mangonel", "also": "Eagle Warrior, Huskarl, Cavalry charge", "avoid": "Infantry without shields"},
+    "Arbalester": {"counter": "Elite Skirmisher, Onager", "also": "Huskarl, Eagle, Ram to tank", "avoid": "Slow infantry"},
+    "Archer": {"counter": "Skirmisher", "also": "Scout rush", "avoid": "Slow melee units"},
+    "Spearman": {"counter": "Archer, Skirmisher", "also": "Man-at-Arms, Militia", "avoid": "Cavalry into spears"},
+    "Pikeman": {"counter": "Archer, Hand Cannoneer", "also": "Scorpion, Mangonel", "avoid": "Knights into pikes"},
+    "Halberdier": {"counter": "Arbalester, Hand Cannoneer", "also": "Champion, Scorpion", "avoid": "Any cavalry"},
+    "Militia": {"counter": "Archer", "also": "Any ranged unit", "avoid": "Nothing — militia is weak"},
+    "Man-at-Arms": {"counter": "Archer (kite)", "also": "Skirmisher + wall", "avoid": "Engaging in melee early"},
+    "Champion": {"counter": "Arbalester, Hand Cannoneer", "also": "Cataphract, Jaguar Warrior", "avoid": "Other infantry"},
+    "Scout Cavalry": {"counter": "Spearman, Walls", "also": "Quick-wall, garrison in TC", "avoid": "Open eco with no military"},
+    "Light Cavalry": {"counter": "Pikeman", "also": "Camel Rider, Knight", "avoid": "Using them vs pikes"},
+    "Hussar": {"counter": "Halberdier", "also": "Camel, heavy cavalry", "avoid": "Chasing hussars with slow units"},
+    "Camel Scout": {"counter": "Pikeman, Archer", "also": "Monk", "avoid": "Knights into camels"},
+    "War Elephant": {"counter": "Halberdier (mass)", "also": "Monk (convert!), Heavy Scorpion", "avoid": "Small melee groups"},
+    "Ballista Elephant": {"counter": "Cavalry charge, Bombard Cannon", "also": "Onager, Monks", "avoid": "Massed infantry in a line"},
+    "Shotel Warrior": {"counter": "Archer, Hand Cannoneer", "also": "Knight charge", "avoid": "Slow infantry 1v1"},
+    "Conquistador": {"counter": "Skirmisher, Camel Archer", "also": "Pikeman if close", "avoid": "Chasing with slow units"},
+    "Mangonel": {"counter": "Cavalry charge, Bombard Cannon", "also": "Spread units, dodge shots", "avoid": "Clumping archers"},
+    "Scorpion": {"counter": "Cavalry, Bombard Cannon", "also": "Mangonel, spread out", "avoid": "Lines of infantry"},
+    "Trebuchet": {"counter": "Cavalry raid, Bombard Cannon", "also": "Trebuchet war (more trebs)", "avoid": "Ignoring enemy trebs"},
+    "Monk": {"counter": "Light Cavalry, Eagle Warrior", "also": "Kill monks first in fights", "avoid": "Sending 1-2 expensive units"},
+    "Trade Cart": {"counter": "Light Cavalry raid", "also": "Hussar raid trade route", "avoid": "Ignoring enemy trade"},
+    "Bombard Cannon": {"counter": "Cavalry charge", "also": "Onager, your own BBC", "avoid": "Slow approach from range"},
+}
+
+
+def get_battle_advice(player_name: str, player_civ: str, player_units: dict,
+                      engagements: list, players: list, game_stats: dict) -> list:
+    """Generate battle-specific counter advice for a player.
+
+    Returns list of dicts: [{opponent, their_units, your_units, advice}]
+    """
+    if not engagements or not players:
+        return []
+
+    # Build player index maps
+    pid_by_name = {}
+    name_by_pid = {}
+    civ_by_pid = {}
+    for i, p in enumerate(players):
+        pid = i + 1
+        pid_by_name[p["name"]] = pid
+        name_by_pid[pid] = p["name"]
+        civ_by_pid[pid] = p["civilization"]
+
+    my_pid = pid_by_name.get(player_name)
+    if not my_pid:
+        return []
+
+    # Find who this player fought
+    opponent_pids = set()
+    for e in engagements:
+        if e.get("p1") == my_pid:
+            opponent_pids.add(e["p2"])
+        elif e.get("p2") == my_pid:
+            opponent_pids.add(e["p1"])
+
+    results = []
+    for opp_pid in sorted(opponent_pids):
+        opp_name = name_by_pid.get(opp_pid, "?")
+        opp_civ = civ_by_pid.get(opp_pid, "?")
+        opp_pid_str = str(opp_pid)
+
+        # Get opponent's units
+        opp_stats = game_stats.get(opp_pid_str, {})
+        opp_units = opp_stats.get("units_trained", {})
+        opp_top = [(n, c) for n, c in sorted(opp_units.items(), key=lambda x: -x[1])
+                   if n != "Villager"][:4]
+
+        if not opp_top:
+            continue
+
+        # Generate counter advice for each opponent unit
+        counters = []
+        for unit_name, count in opp_top:
+            if unit_name in COUNTER_ADVICE:
+                ca = COUNTER_ADVICE[unit_name]
+                counters.append({
+                    "enemy_unit": unit_name,
+                    "enemy_count": count,
+                    "counter": ca["counter"],
+                    "also": ca.get("also", ""),
+                    "avoid": ca.get("avoid", ""),
+                })
+
+        # Count engagements with this opponent
+        fight_count = sum(1 for e in engagements
+                         if (e.get("p1") == my_pid and e.get("p2") == opp_pid) or
+                            (e.get("p2") == my_pid and e.get("p1") == opp_pid))
+
+        results.append({
+            "opponent": opp_name,
+            "opponent_civ": opp_civ,
+            "fight_count": fight_count,
+            "their_top_units": opp_top,
+            "counters": counters,
+        })
+
+    return results
+
+
 def format_engagements_for_ai(engagements: list, players: list) -> str:
     """Format engagement data for the AI prompt."""
     if not engagements:

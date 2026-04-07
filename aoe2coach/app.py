@@ -12,6 +12,7 @@ from fastapi.templating import Jinja2Templates
 from parser import parse_replay
 from coach import generate_coaching
 from llm_coach import get_ai_analysis
+from game_stats import get_battle_advice
 
 app = FastAPI(title="AOE2 Game Coach", version="0.2.0")
 
@@ -63,9 +64,23 @@ async def analyze_replay(
         # Generate coaching
         coaching = generate_coaching(analysis, focus_player=focus_player or None)
 
+        # Add battle advice per player
+        analysis_dict = analysis.to_dict()
+        for report in coaching.get("player_reports", []):
+            report["battle_advice"] = get_battle_advice(
+                player_name=report["name"],
+                player_civ=report["civilization"],
+                player_units=analysis_dict.get("game_stats", {}).get(
+                    str(next((i+1 for i, p in enumerate(analysis_dict["players"]) if p["name"] == report["name"]), 0)), {}
+                ).get("units_trained", {}),
+                engagements=analysis_dict.get("engagements", []),
+                players=analysis_dict.get("players", []),
+                game_stats=analysis_dict.get("game_stats", {}),
+            )
+
         # Cache for AI analysis endpoint
         _last_analysis = {
-            "analysis": analysis.to_dict(),
+            "analysis": analysis_dict,
             "coaching": coaching,
             "focus_player": focus_player,
         }

@@ -356,6 +356,34 @@
 
                     let civAdviceHtml = report.civ_advice ? `<div class="section civ-advice"><h4>&#127983; ${report.civilization} Tip</h4><p>${report.civ_advice}</p></div>` : '';
 
+                    // --- Battle matchups & counter advice ---
+                    let battleHtml = '';
+                    const ba = report.battle_advice || [];
+                    if (ba.length > 0) {
+                        let rows = '';
+                        ba.forEach(b => {
+                            const oppUnits = b.their_top_units.map(([n,c]) => `${n}(${c})`).join(', ');
+                            let counterRows = '';
+                            b.counters.forEach(c => {
+                                counterRows += `<div class="counter-row">
+                                    <span class="counter-enemy">${c.enemy_unit} x${c.enemy_count}</span>
+                                    <span class="counter-arrow">&rarr;</span>
+                                    <span class="counter-unit">Build: ${c.counter}</span>
+                                </div>`;
+                            });
+                            rows += `<div class="battle-matchup">
+                                <div class="battle-matchup-header">
+                                    <span>vs <strong>${b.opponent}</strong> (${b.opponent_civ}) &mdash; ${b.fight_count} engagements</span>
+                                </div>
+                                <div class="battle-matchup-body">
+                                    <div class="counter-label">They built: ${oppUnits}</div>
+                                    ${counterRows}
+                                </div>
+                            </div>`;
+                        });
+                        battleHtml = `<div class="section battle-section"><h4>&#9876; Your Battles & Counters</h4>${rows}</div>`;
+                    }
+
                     card.innerHTML = `
                         <div class="player-header">
                             <div class="player-name-row">
@@ -365,7 +393,7 @@
                             </div>
                             <div class="grade grade-${report.grade.replace('+', 'plus')}">${report.grade}</div>
                         </div>
-                        ${statsBadgesHtml}${deepStatsHtml}${strengthsHtml}${improvementsHtml}${civAdviceHtml}
+                        ${statsBadgesHtml}${deepStatsHtml}${battleHtml}${strengthsHtml}${improvementsHtml}${civAdviceHtml}
                     `;
                     reportsContainer.appendChild(card);
                 });
