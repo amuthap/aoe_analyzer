@@ -155,6 +155,7 @@ def parse_data(data_bytes):
         resign = {}
         action_ct = defaultdict(int)
         pos_buckets = defaultdict(lambda: defaultdict(list))  # time_bucket -> pid -> [(x,y)]
+        unit_timeline = defaultdict(list)  # pid -> [(time, uid, amount)]
 
         for op in ops:
             if "Action" not in op:
@@ -172,7 +173,11 @@ def parse_data(data_bytes):
                 action_ct[pid] += 1
 
                 if atype == "DeQueue":
-                    unit_prod[pid][adata.get("unit_id", 0)] += adata.get("amount", 1)
+                    uid = adata.get("unit_id", 0)
+                    amt = adata.get("amount", 1)
+                    unit_prod[pid][uid] += amt
+                    # Also track with timestamps for upgrade-aware labeling
+                    unit_timeline[pid].append((round(t_min, 1), uid, amt))
                 elif atype == "Research":
                     research[pid].append((round(t_min, 1), adata.get("technology_type", 0)))
                 elif atype == "Build":
@@ -253,6 +258,7 @@ def parse_data(data_bytes):
 
             result["game_stats"][str(pid)] = {
                 "units_trained": units,
+                "unit_timeline": unit_timeline.get(pid, []),
                 "research": techs,
                 "buildings_placed": build_ct.get(pid, 0),
                 "walls_built": wall_ct.get(pid, 0),
@@ -500,22 +506,72 @@ def _populate_analysis(analysis: GameAnalysis, raw: dict):
     raw_stats = raw.get("game_stats", {})
     if raw_stats:
         from game_stats import UNIT_NAMES, TECH_NAMES, _categorize_unit
+
+        # Unit upgrade chains: base_id -> [(upgrade_tech_id, upgraded_name)]
+        # When a player researches the upgrade, all FUTURE units of that base type get the new name
+        UPGRADE_CHAINS = {
+            4: [(215, "Arbalester"), (None, "Crossbowman")],  # Archer -> Crossbow (Castle) -> Arbalester
+            74: [(211, "Champion"), (74, "Long Swordsman"), (222, "Man-at-Arms")],  # Militia line
+            93: [(209, "Halberdier"), (197, "Pikeman")],  # Spearman -> Pikeman -> Halberdier
+            38: [(212, "Paladin"), (75, "Cavalier")],  # Knight -> Cavalier -> Paladin
+            448: [(None, "Light Cavalry")],  # Scout -> Light Cavalry (auto in Castle)
+            39: [(217, "Heavy Cavalry Archer")],  # Cav Archer -> Heavy CA
+            279: [(239, "Heavy Scorpion")],  # Scorpion -> Heavy Scorpion
+            280: [(236, "Onager")],  # Mangonel -> Onager
+            329: [(None, "Heavy Camel Rider")],  # Camel -> Heavy Camel
+        }
+
         for pid_str, pstats in raw_stats.items():
-            # Convert unit IDs to names and categorize
+            # Build research time lookup for this player
+            research_times = {}  # tech_id -> time
+            for t_min, tid in pstats.get("research", []):
+                if tid not in research_times:
+                    research_times[tid] = t_min
+
+            # Upgrade-aware unit naming using timeline
             units_named = {}
             unit_cats = {}
             villager_count = 0
             military_count = 0
-            for uid_str, count in pstats.get("units_trained", {}).items():
-                uid = int(uid_str)
-                uname = UNIT_NAMES.get(uid, f"Unit#{uid}")
-                units_named[uname] = count
-                cat = _categorize_unit(uid)
-                unit_cats[cat] = unit_cats.get(cat, 0) + count
-                if uid == 83:
-                    villager_count = count
-                elif cat not in ("Villager", "Trade", "Naval"):
-                    military_count += count
+
+            unit_tl = pstats.get("unit_timeline", [])
+            if unit_tl:
+                # Use timeline for upgrade-aware labeling
+                for t_min, uid, amt in unit_tl:
+                    base_name = UNIT_NAMES.get(uid, f"Unit#{uid}")
+
+                    # Check if this unit has an upgrade chain
+                    if uid in UPGRADE_CHAINS:
+                        resolved_name = base_name
+                        for upgrade_tech, upgraded_name in UPGRADE_CHAINS[uid]:
+                            if upgrade_tech is None:
+                                # Auto-upgrade in Castle Age (e.g., Crossbowman)
+                                castle_time = research_times.get(101, 999)
+                                if t_min >= castle_time:
+                                    resolved_name = upgraded_name
+                            elif upgrade_tech in research_times and t_min >= research_times[upgrade_tech]:
+                                resolved_name = upgraded_name
+                        base_name = resolved_name
+
+                    units_named[base_name] = units_named.get(base_name, 0) + amt
+                    cat = _categorize_unit(uid)
+                    unit_cats[cat] = unit_cats.get(cat, 0) + amt
+                    if uid in (83, 84):
+                        villager_count += amt
+                    elif cat not in ("Villager", "Trade", "Naval"):
+                        military_count += amt
+            else:
+                # Fallback: no timeline, use simple naming
+                for uid_str, count in pstats.get("units_trained", {}).items():
+                    uid = int(uid_str)
+                    uname = UNIT_NAMES.get(uid, f"Unit#{uid}")
+                    units_named[uname] = count
+                    cat = _categorize_unit(uid)
+                    unit_cats[cat] = unit_cats.get(cat, 0) + count
+                    if uid in (83, 84):
+                        villager_count = count
+                    elif cat not in ("Villager", "Trade", "Naval"):
+                        military_count += count
 
             # Convert tech IDs to names + extract age times
             research_named = []
