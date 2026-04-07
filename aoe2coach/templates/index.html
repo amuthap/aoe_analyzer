@@ -205,14 +205,20 @@
 
             // Overview
             const overviewGrid = document.getElementById('overview-grid');
-            const elos = analysis.players.filter(p => p.elo > 0);
-            const avgElo = elos.length ? Math.round(elos.reduce((s, p) => s + p.elo, 0) / elos.length) : 0;
             overviewGrid.innerHTML = `
                 <div class="stat-box"><div class="stat-label">Mode</div><div class="stat-value">${analysis.game_type || '?'}</div></div>
+                <div class="stat-box"><div class="stat-label">Map</div><div class="stat-value">${analysis.map_name || 'Unknown'}</div></div>
                 <div class="stat-box"><div class="stat-label">Duration</div><div class="stat-value">${analysis.duration_display || 'N/A'}</div></div>
-                <div class="stat-box"><div class="stat-label">Players</div><div class="stat-value">${analysis.players.length}</div></div>
-                <div class="stat-box"><div class="stat-label">Avg ELO</div><div class="stat-value">${avgElo || 'N/A'}</div></div>
+                <div class="stat-box"><div class="stat-label">Speed</div><div class="stat-value">${analysis.game_speed || 'Normal'}</div></div>
             `;
+            const lobbyParts = [];
+            if (analysis.lobby_name) lobbyParts.push(analysis.lobby_name);
+            lobbyParts.push(analysis.ranked ? 'Ranked' : 'Unranked');
+            lobbyParts.push(`Pop: ${analysis.pop_limit || 200}`);
+            const overviewSubtitle = document.createElement('p');
+            overviewSubtitle.className = 'overview-subtitle';
+            overviewSubtitle.textContent = lobbyParts.join(' \u2022 ');
+            overviewGrid.parentElement.appendChild(overviewSubtitle);
 
             // --- AI Buttons (top) ---
             const aiButtons = document.getElementById('ai-buttons');

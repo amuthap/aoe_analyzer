@@ -16,6 +16,24 @@ from civ_database import CIV_IDS, CIV_DATABASE, get_civ_by_id
 CIV_NAMES = {0: "Gaia"}
 CIV_NAMES.update(CIV_IDS)
 
+MAP_NAMES = {
+    9: "Arabia", 10: "Archipelago", 11: "Baltic", 12: "Black Forest",
+    13: "Coastal", 14: "Continental", 15: "Crater Lake", 16: "Fortress",
+    17: "Gold Rush", 18: "Highland", 19: "Islands", 20: "Mediterranean",
+    21: "Migration", 22: "Rivers", 23: "Team Islands", 24: "Full Random",
+    25: "Scandinavia", 26: "Mongolia", 27: "Yucatan", 28: "Salt Marsh",
+    29: "Arena", 31: "Oasis", 32: "Ghost Lake", 33: "Nomad",
+    49: "MegaRandom", 67: "Lombardia", 71: "Steppe", 72: "Budapest",
+    74: "Valley", 75: "Atlantic", 76: "Land of Lakes", 77: "Land Nomad",
+    79: "Cenotes", 80: "Golden Pit", 86: "Hamburger",
+    137: "Socotra", 139: "Four Lakes", 140: "MegaRandom",
+    142: "Ravines", 143: "Wolf Hill", 144: "Sacred Springs",
+    147: "Amazon Tunnel", 148: "Coastal Forest", 149: "African Clearing",
+    150: "Atacama", 152: "Seize the Mountain", 153: "Crater",
+    154: "Crossroads", 155: "Michi", 156: "Team Moats",
+    160: "Acclivity", 161: "Eruption", 165: "Runestones",
+}
+
 
 @dataclass
 class PlayerStats:
@@ -38,6 +56,10 @@ class GameAnalysis:
     game_version: str = "DE"
     duration_seconds: float = 0
     duration_display: str = "0:00"
+    lobby_name: str = ""
+    game_speed: str = "Normal"
+    ranked: bool = False
+    pop_limit: int = 200
     players: list = field(default_factory=list)
     teams: dict = field(default_factory=dict)
     game_stats: dict = field(default_factory=dict)  # Deep per-player stats
@@ -72,6 +94,11 @@ def parse_data(data_bytes):
         "players": {},
         "chats": [],
         "game_stats": {},
+        "map_id": None,
+        "lobby_name": "",
+        "speed": None,
+        "ranked": False,
+        "pop_limit": 200,
     }
 
     for pid, pdata in s.players.items():
@@ -99,10 +126,21 @@ def parse_data(data_bytes):
                 "message": chat.message,
             })
 
-    # === DEEP STATS: Extract operations ===
+    # === DEEP STATS: Extract operations + game settings ===
     try:
         raw = parse_rec(data_bytes)
         ops = raw.get("operations", [])
+
+        # Extract game settings from header
+        try:
+            gs = raw.get("zheader", {}).get("game_settings", {})
+            result["map_id"] = gs.get("selected_map_id") or gs.get("resolved_map_id")
+            result["lobby_name"] = gs.get("lobby_name", "")
+            result["speed"] = gs.get("speed")
+            result["ranked"] = bool(gs.get("ranked", False))
+            result["pop_limit"] = gs.get("population_limit", 200)
+        except Exception:
+            pass
 
         # Aggregate per-player stats from operations
         unit_prod = defaultdict(lambda: defaultdict(int))
@@ -299,6 +337,35 @@ def _try_direct_parse(file_data: bytes) -> dict:
 
 def _populate_analysis(analysis: GameAnalysis, raw: dict):
     """Convert raw parsed data into GameAnalysis."""
+    # Map name
+    map_id = raw.get("map_id")
+    if map_id is not None:
+        analysis.map_name = MAP_NAMES.get(int(map_id), f"Map {map_id}")
+    # Lobby name fallback: if lobby name contains a known map name, use that
+    lobby = raw.get("lobby_name", "")
+    analysis.lobby_name = lobby
+    if analysis.map_name in ("Unknown", None) or (map_id is None):
+        lobby_upper = lobby.upper()
+        for name in MAP_NAMES.values():
+            if name.upper() in lobby_upper:
+                analysis.map_name = name
+                break
+
+    # Game speed
+    speed_val = raw.get("speed")
+    if speed_val is not None:
+        speed_f = float(speed_val)
+        if speed_f < 1.6:
+            analysis.game_speed = "Slow" if speed_f < 1.45 else "Normal"
+        else:
+            analysis.game_speed = "Fast"
+
+    # Ranked / pop limit
+    analysis.ranked = bool(raw.get("ranked", False))
+    pop = raw.get("pop_limit")
+    if pop is not None:
+        analysis.pop_limit = int(pop)
+
     # Duration
     duration_ms = raw.get("duration", 0)
     if duration_ms:
