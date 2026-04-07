@@ -60,6 +60,12 @@
                 <div id="ai-results-container"></div>
             </div>
 
+            <!-- Battle Timeline -->
+            <div class="card" id="battle-card">
+                <h2>&#9876; Battle Timeline</h2>
+                <div id="battle-timeline"></div>
+            </div>
+
             <!-- Player Reports -->
             <div id="player-reports"></div>
 
@@ -67,12 +73,6 @@
             <div class="card tips-card" id="tips-card">
                 <h2>&#128161; Pro Tips</h2>
                 <div id="tips-list"></div>
-            </div>
-
-            <!-- Battle Timeline -->
-            <div class="card" id="battle-card">
-                <h2>&#9876; Battle Timeline</h2>
-                <div id="battle-timeline"></div>
             </div>
 
             <div class="try-again">
@@ -425,7 +425,7 @@
                     const n2 = (pidName[e.p2] || '?').substring(0,10);
                     dotsHtml += `<div class="battle-dot" style="left:${left}%" title="${e.time}min: ${n1} vs ${n2}"></div>`;
                 });
-                dotsHtml += '<div class="battle-axis"><span>0 min</span><span>${analysis.duration_display}</span></div>';
+                dotsHtml += `<div class="battle-axis"><span>0 min</span><span>${analysis.duration_display}</span></div>`;
                 dotsHtml += '</div>';
 
                 battleDiv.innerHTML = matchupHtml + dotsHtml;
