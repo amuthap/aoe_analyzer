@@ -1,0 +1,2917 @@
+[
+  {
+    "replay": "MP Replay v101.103.39862.0 @2026.04.12 003951 (3).aoe2record",
+    "map": "Arabia",
+    "duration": "36:30",
+    "your_civ": "Khmer",
+    "your_elo": 972,
+    "your_eapm": 12,
+    "result": "LOSS",
+    "focus_stats": {
+      "units_trained": {
+        "Villager": 86,
+        "Scout Cavalry": 20,
+        "Battle Elephant": 13,
+        "Knight": 99
+      },
+      "unit_categories": {
+        "Villager": 86,
+        "Cavalry": 119,
+        "Elephant": 13
+      },
+      "research_timeline": [
+        {
+          "time": 22.5,
+          "name": "Imperial Age"
+        },
+        {
+          "time": 22.6,
+          "name": "Squires"
+        },
+        {
+          "time": 23.6,
+          "name": "Leather Archer Armor"
+        },
+        {
+          "time": 25.2,
+          "name": "Husbandry"
+        },
+        {
+          "time": 26.4,
+          "name": "Town Patrol"
+        },
+        {
+          "time": 26.9,
+          "name": "Gold Shaft Mining"
+        },
+        {
+          "time": 32.4,
+          "name": "Sappers"
+        },
+        {
+          "time": 32.7,
+          "name": "Plate Mail Armor"
+        },
+        {
+          "time": 38.7,
+          "name": "Imperial Age"
+        },
+        {
+          "time": 43.0,
+          "name": "Gold Mining"
+        },
+        {
+          "time": 43.6,
+          "name": "Ring Archer Armor"
+        },
+        {
+          "time": 43.9,
+          "name": "Halberdier"
+        },
+        {
+          "time": 45.9,
+          "name": "Fletching"
+        },
+        {
+          "time": 47.4,
+          "name": "Town Watch"
+        },
+        {
+          "time": 49.8,
+          "name": "Heavy Plow"
+        },
+        {
+          "time": 52.9,
+          "name": "Chain Barding Armor"
+        },
+        {
+          "time": 52.9,
+          "name": "Double-Bit Axe"
+        }
+      ],
+      "age_times": {
+        "imperial": 22.5
+      },
+      "eco_upgrades": {
+        "double_bit_axe": 52.9
+      },
+      "buildings_placed": 85,
+      "walls_built": 0,
+      "town_bells": 7,
+      "flares": 0,
+      "market_actions": 27,
+      "resign_time": 55.9,
+      "total_actions": 648,
+      "villager_count": 86,
+      "military_count": 132
+    },
+    "coaching": {
+      "overall_grade": "C",
+      "game_summary": "3v3 on Arabia - 36:30 (medium game)",
+      "player_reports": [
+        {
+          "name": "Nan Nilavan",
+          "civilization": "Civ 59",
+          "civ_type": "",
+          "winner": true,
+          "elo": 1231,
+          "elo_tier": "Intermediate",
+          "eapm": 19,
+          "team": 2,
+          "resigned": false,
+          "grade": "C+",
+          "strengths": [
+            "Won the game!"
+          ],
+          "improvements": [
+            {
+              "area": "Actions Per Minute (Critical)",
+              "severity": "high",
+              "message": "Your EAPM of 19 is quite low. This means you're not giving enough commands, leading to idle units and idle economy.",
+              "advice": [
+                "Learn and drill hotkeys: Q/W/E for military buildings, H for TC",
+                "Practice the 'TC check loop': every few seconds, tap H to check your TC",
+                "Use control groups: select army, press Ctrl+1. Now press 1 to select them anytime",
+                "Play against the AI to practice multitasking without pressure",
+                "Watch T90's 'Low ELO Legends' for common mistakes to avoid"
+              ]
+            },
+            {
+              "area": "Climbing from 1231 ELO",
+              "severity": "medium",
+              "message": "At 1231 ELO (Intermediate), the biggest gains come from economy fundamentals.",
+              "advice": [
+                "Zero idle TC time is the #1 skill - always be making villagers until 120+ pop",
+                "Learn 2-3 build orders by heart (scouts, archers, fast castle)",
+                "Don't forget eco upgrades: Double-Bit Axe, Horse Collar, etc. on time",
+                "Scout your opponent in Feudal to know if you need to defend or attack"
+              ]
+            }
+          ],
+          "civ_advice": ""
+        },
+        {
+          "name": "Lone Wolf",
+          "civilization": "Berbers",
+          "civ_type": "Cavalry and Naval",
+          "winner": false,
+          "elo": 0,
+          "elo_tier": "Unranked",
+          "eapm": 20,
+          "team": 3,
+          "resigned": true,
+          "grade": "C",
+          "strengths": [
+            "Highest activity on your team (EAPM: 20 vs team avg: 15)"
+          ],
+          "improvements": [
+            {
+              "area": "Actions Per Minute (Critical)",
+              "severity": "high",
+              "message": "Your EAPM of 20 is quite low. This means you're not giving enough commands, leading to idle units and idle economy.",
+              "advice": [
+                "Learn and drill hotkeys: Q/W/E for military buildings, H for TC",
+                "Practice the 'TC check loop': every few seconds, tap H to check your TC",
+                "Use control groups: select army, press Ctrl+1. Now press 1 to select them anytime",
+                "Play against the AI to practice multitasking without pressure",
+                "Watch T90's 'Low ELO Legends' for common mistakes to avoid"
+              ]
+            },
+            {
+              "area": "Late Game Decision Making",
+              "severity": "low",
+              "message": "Resigned in a long game. Late game is about trade, map control, and composition switches.",
+              "advice": [
+                "Set up trade early (by 35 minutes) - gold wins late games",
+                "Learn trash unit transitions: halberdiers + skirmishers when gold runs out",
+                "Control relics for trickle gold income",
+                "Don't forget trebuchets - you need siege to close out games"
+              ]
+            },
+            {
+              "area": "Playing Berbers (Cavalry and Naval)",
+              "severity": "low",
+              "message": "As Berbers, leverage your unique strengths.",
+              "advice": [
+                "Cheaper stable units (15/20% discount). Camel Archers are excellent vs. other archer civs. Strong on open maps.",
+                "Study pro replays of Berbers on YouTube",
+                "Master your unique units: Camel Archer, Genitour",
+                "Key bonus: Villagers move 10% faster."
+              ]
+            }
+          ],
+          "civ_advice": "Cheaper stable units (15/20% discount). Camel Archers are excellent vs. other archer civs. Strong on open maps.",
+          "civ_bonuses": [
+            "Villagers move 10% faster.",
+            "Stable units are 15%/20% cheaper in the Castle/Imperial Age.",
+            "Ships move 10% faster."
+          ],
+          "unique_units": [
+            "Camel Archer",
+            "Genitour"
+          ],
+          "meta_tier": "A"
+        },
+        {
+          "name": "PaimPozhil",
+          "civilization": "Khmer",
+          "civ_type": "Siege and Elephant",
+          "winner": false,
+          "elo": 972,
+          "elo_tier": "Beginner",
+          "eapm": 12,
+          "team": 3,
+          "resigned": true,
+          "grade": "C",
+          "strengths": [],
+          "improvements": [
+            {
+              "area": "Actions Per Minute (Critical)",
+              "severity": "high",
+              "message": "Your EAPM of 12 is quite low. This means you're not giving enough commands, leading to idle units and idle economy.",
+              "advice": [
+                "Learn and drill hotkeys: Q/W/E for military buildings, H for TC",
+                "Practice the 'TC check loop': every few seconds, tap H to check your TC",
+                "Use control groups: select army, press Ctrl+1. Now press 1 to select them anytime",
+                "Play against the AI to practice multitasking without pressure",
+                "Watch T90's 'Low ELO Legends' for common mistakes to avoid"
+              ]
+            },
+            {
+              "area": "Beginner Fundamentals (972 ELO)",
+              "severity": "high",
+              "message": "At 972 ELO, focus on the basics before strategy.",
+              "advice": [
+                "Learn ONE build order and practice it vs AI until you can do it from memory",
+                "Never stop making villagers - aim for 0 idle TC time in Dark Age",
+                "Use sheep efficiently: only kill one at a time, garrison scout",
+                "Watch Hera's 'Guide to 2000 ELO' series - best learning resource",
+                "Play ranked 1v1 to improve faster - team games mask individual mistakes"
+              ]
+            },
+            {
+              "area": "Late Game Decision Making",
+              "severity": "low",
+              "message": "Resigned in a long game. Late game is about trade, map control, and composition switches.",
+              "advice": [
+                "Set up trade early (by 35 minutes) - gold wins late games",
+                "Learn trash unit transitions: halberdiers + skirmishers when gold runs out",
+                "Control relics for trickle gold income",
+                "Don't forget trebuchets - you need siege to close out games"
+              ]
+            },
+            {
+              "area": "Playing Khmer (Siege and Elephant)",
+              "severity": "low",
+              "message": "As Khmer, leverage your unique strengths.",
+              "advice": [
+                "No building requirements = flexible builds (skip barracks!). Scorpions are deadly. Ballista Elephants are unique.",
+                "Study pro replays of Khmer on YouTube",
+                "Master your unique units: Ballista Elephant",
+                "Key bonus: No building requirements to advance Ages or build structures."
+              ]
+            }
+          ],
+          "civ_advice": "No building requirements = flexible builds (skip barracks!). Scorpions are deadly. Ballista Elephants are unique.",
+          "civ_bonuses": [
+            "No building requirements to advance Ages or build structures.",
+            "Battle Elephants move 10% faster.",
+            "Villagers can garrison in Houses.",
+            "Farmers do not need to drop off food."
+          ],
+          "unique_units": [
+            "Ballista Elephant"
+          ],
+          "meta_tier": "A"
+        },
+        {
+          "name": "KING STEVE HARRINGTON",
+          "civilization": "Muisca",
+          "civ_type": "Monk and Economy",
+          "winner": true,
+          "elo": 759,
+          "elo_tier": "Beginner",
+          "eapm": 13,
+          "team": 2,
+          "resigned": false,
+          "grade": "C+",
+          "strengths": [
+            "Won the game!"
+          ],
+          "improvements": [
+            {
+              "area": "Actions Per Minute (Critical)",
+              "severity": "high",
+              "message": "Your EAPM of 13 is quite low. This means you're not giving enough commands, leading to idle units and idle economy.",
+              "advice": [
+                "Learn and drill hotkeys: Q/W/E for military buildings, H for TC",
+                "Practice the 'TC check loop': every few seconds, tap H to check your TC",
+                "Use control groups: select army, press Ctrl+1. Now press 1 to select them anytime",
+                "Play against the AI to practice multitasking without pressure",
+                "Watch T90's 'Low ELO Legends' for common mistakes to avoid"
+              ]
+            },
+            {
+              "area": "Beginner Fundamentals (759 ELO)",
+              "severity": "high",
+              "message": "At 759 ELO, focus on the basics before strategy.",
+              "advice": [
+                "Learn ONE build order and practice it vs AI until you can do it from memory",
+                "Never stop making villagers - aim for 0 idle TC time in Dark Age",
+                "Use sheep efficiently: only kill one at a time, garrison scout",
+                "Watch Hera's 'Guide to 2000 ELO' series - best learning resource",
+                "Play ranked 1v1 to improve faster - team games mask individual mistakes"
+              ]
+            },
+            {
+              "area": "Team Contribution",
+              "severity": "medium",
+              "message": "Your EAPM (13) was significantly lower than your team average (19).",
+              "advice": [
+                "In team games, try to match your teammates' activity level",
+                "Help with rushes or defense coordination",
+                "Use flares (Alt+click minimap) to communicate with teammates",
+                "Pocket player? Focus on booming. Flank? Focus on defending and pressuring"
+              ]
+            }
+          ],
+          "civ_advice": "Guecha Warriors heal allies on death. Temple Guards ramp up attack speed. Cheap age-ups and healing Settlements.",
+          "civ_bonuses": [
+            "Advancing to the next Age costs -50% gold.",
+            "Settlements cost -25% and heal allied units within 3 tiles by 5/10/15/15 HP/min in Dark/Feudal/Castle/Imperial Age.",
+            "The Champi Scout line and Archery Range units have +1/2/3 melee armor in the Feudal/Castle/Imperial Age.",
+            "Monks regain faith 100% faster."
+          ],
+          "unique_units": [
+            "Guecha Warrior",
+            "Temple Guard"
+          ],
+          "meta_tier": "B"
+        },
+        {
+          "name": "THEY DONT CARE ABOUT US",
+          "civilization": "Italians",
+          "civ_type": "Foot Archers and Navy",
+          "winner": true,
+          "elo": 1088,
+          "elo_tier": "Intermediate",
+          "eapm": 26,
+          "team": 2,
+          "resigned": false,
+          "grade": "C+",
+          "strengths": [
+            "Won the game!",
+            "Highest activity on your team (EAPM: 26 vs team avg: 19)"
+          ],
+          "improvements": [
+            {
+              "area": "Actions Per Minute (Critical)",
+              "severity": "high",
+              "message": "Your EAPM of 26 is quite low. This means you're not giving enough commands, leading to idle units and idle economy.",
+              "advice": [
+                "Learn and drill hotkeys: Q/W/E for military buildings, H for TC",
+                "Practice the 'TC check loop': every few seconds, tap H to check your TC",
+                "Use control groups: select army, press Ctrl+1. Now press 1 to select them anytime",
+                "Play against the AI to practice multitasking without pressure",
+                "Watch T90's 'Low ELO Legends' for common mistakes to avoid"
+              ]
+            },
+            {
+              "area": "Climbing from 1088 ELO",
+              "severity": "medium",
+              "message": "At 1088 ELO (Intermediate), the biggest gains come from economy fundamentals.",
+              "advice": [
+                "Zero idle TC time is the #1 skill - always be making villagers until 120+ pop",
+                "Learn 2-3 build orders by heart (scouts, archers, fast castle)",
+                "Don't forget eco upgrades: Double-Bit Axe, Horse Collar, etc. on time",
+                "Scout your opponent in Feudal to know if you need to defend or attack"
+              ]
+            }
+          ],
+          "civ_advice": "Genoese Crossbowmen shred cavalry. Cheaper age-ups give timing advantage. Condottiero counters gunpowder.",
+          "civ_bonuses": [
+            "Advancing to the next Age is 15% cheaper.",
+            "Foot archers (except Skirmishers) and Condottieri +1/+1 armor.",
+            "Dock and University technologies are 25% cheaper.",
+            "Fishing Ships are 15% cheaper."
+          ],
+          "unique_units": [
+            "Genoese Crossbowman",
+            "Condottiero"
+          ],
+          "meta_tier": "B"
+        },
+        {
+          "name": "mark_aoe_2024",
+          "civilization": "Hindustanis",
+          "civ_type": "Camel and Gunpowder",
+          "winner": false,
+          "elo": 985,
+          "elo_tier": "Beginner",
+          "eapm": 14,
+          "team": 3,
+          "resigned": true,
+          "grade": "C",
+          "strengths": [],
+          "improvements": [
+            {
+              "area": "Actions Per Minute (Critical)",
+              "severity": "high",
+              "message": "Your EAPM of 14 is quite low. This means you're not giving enough commands, leading to idle units and idle economy.",
+              "advice": [
+                "Learn and drill hotkeys: Q/W/E for military buildings, H for TC",
+                "Practice the 'TC check loop': every few seconds, tap H to check your TC",
+                "Use control groups: select army, press Ctrl+1. Now press 1 to select them anytime",
+                "Play against the AI to practice multitasking without pressure",
+                "Watch T90's 'Low ELO Legends' for common mistakes to avoid"
+              ]
+            },
+            {
+              "area": "Beginner Fundamentals (985 ELO)",
+              "severity": "high",
+              "message": "At 985 ELO, focus on the basics before strategy.",
+              "advice": [
+                "Learn ONE build order and practice it vs AI until you can do it from memory",
+                "Never stop making villagers - aim for 0 idle TC time in Dark Age",
+                "Use sheep efficiently: only kill one at a time, garrison scout",
+                "Watch Hera's 'Guide to 2000 ELO' series - best learning resource",
+                "Play ranked 1v1 to improve faster - team games mask individual mistakes"
+              ]
+            },
+            {
+              "area": "Late Game Decision Making",
+              "severity": "low",
+              "message": "Resigned in a long game. Late game is about trade, map control, and composition switches.",
+              "advice": [
+                "Set up trade early (by 35 minutes) - gold wins late games",
+                "Learn trash unit transitions: halberdiers + skirmishers when gold runs out",
+                "Control relics for trickle gold income",
+                "Don't forget trebuchets - you need siege to close out games"
+              ]
+            },
+            {
+              "area": "Playing Hindustanis (Camel and Gunpowder)",
+              "severity": "low",
+              "message": "As Hindustanis, leverage your unique strengths.",
+              "advice": [
+                "Ghulams counter archers. Camels attack faster = cavalry counter. Caravanserai heals and shields trade.",
+                "Study pro replays of Hindustanis on YouTube",
+                "Master your unique units: Ghulam",
+                "Key bonus: Villagers cost -5%/10%/15%/20% in the Dark/Feudal/Castle/Imperial Age."
+              ]
+            }
+          ],
+          "civ_advice": "Ghulams counter archers. Camels attack faster = cavalry counter. Caravanserai heals and shields trade.",
+          "civ_bonuses": [
+            "Villagers cost -5%/10%/15%/20% in the Dark/Feudal/Castle/Imperial Age.",
+            "Camel Riders attack 20% faster.",
+            "Gunpowder units +1/+1 armor.",
+            "Can build Caravanserais in the Imperial Age."
+          ],
+          "unique_units": [
+            "Ghulam"
+          ],
+          "meta_tier": "A"
+        }
+      ],
+      "tips": [
+        {
+          "category": "Lobby",
+          "tip": "Average ELO in this game: 1007 (Intermediate level)"
+        },
+        {
+          "category": "Golden Rule",
+          "tip": "The #1 skill at EVERY ELO: keep your TC producing villagers. Zero idle TC time wins more games than any strategy."
+        }
+      ],
+      "focus_areas": [
+        {
+          "area": "Actions Per Minute (Critical)",
+          "severity": "high",
+          "message": "Your EAPM of 12 is quite low. This means you're not giving enough commands, leading to idle units and idle economy.",
+          "advice": [
+            "Learn and drill hotkeys: Q/W/E for military buildings, H for TC",
+            "Practice the 'TC check loop': every few seconds, tap H to check your TC",
+            "Use control groups: select army, press Ctrl+1. Now press 1 to select them anytime",
+            "Play against the AI to practice multitasking without pressure",
+            "Watch T90's 'Low ELO Legends' for common mistakes to avoid"
+          ]
+        },
+        {
+          "area": "Beginner Fundamentals (972 ELO)",
+          "severity": "high",
+          "message": "At 972 ELO, focus on the basics before strategy.",
+          "advice": [
+            "Learn ONE build order and practice it vs AI until you can do it from memory",
+            "Never stop making villagers - aim for 0 idle TC time in Dark Age",
+            "Use sheep efficiently: only kill one at a time, garrison scout",
+            "Watch Hera's 'Guide to 2000 ELO' series - best learning resource",
+            "Play ranked 1v1 to improve faster - team games mask individual mistakes"
+          ]
+        },
+        {
+          "area": "Late Game Decision Making",
+          "severity": "low",
+          "message": "Resigned in a long game. Late game is about trade, map control, and composition switches.",
+          "advice": [
+            "Set up trade early (by 35 minutes) - gold wins late games",
+            "Learn trash unit transitions: halberdiers + skirmishers when gold runs out",
+            "Control relics for trickle gold income",
+            "Don't forget trebuchets - you need siege to close out games"
+          ]
+        },
+        {
+          "area": "Playing Khmer (Siege and Elephant)",
+          "severity": "low",
+          "message": "As Khmer, leverage your unique strengths.",
+          "advice": [
+            "No building requirements = flexible builds (skip barracks!). Scorpions are deadly. Ballista Elephants are unique.",
+            "Study pro replays of Khmer on YouTube",
+            "Master your unique units: Ballista Elephant",
+            "Key bonus: No building requirements to advance Ages or build structures."
+          ]
+        }
+      ]
+    },
+    "engagements": [
+      {
+        "time": 18,
+        "p1": 1,
+        "p2": 6
+      },
+      {
+        "time": 21,
+        "p1": 1,
+        "p2": 2
+      },
+      {
+        "time": 21,
+        "p1": 3,
+        "p2": 4
+      },
+      {
+        "time": 24,
+        "p1": 3,
+        "p2": 4
+      },
+      {
+        "time": 24,
+        "p1": 2,
+        "p2": 5
+      },
+      {
+        "time": 24,
+        "p1": 5,
+        "p2": 6
+      },
+      {
+        "time": 24,
+        "p1": 1,
+        "p2": 6
+      },
+      {
+        "time": 24,
+        "p1": 1,
+        "p2": 2
+      },
+      {
+        "time": 27,
+        "p1": 1,
+        "p2": 3
+      },
+      {
+        "time": 30,
+        "p1": 3,
+        "p2": 4
+      },
+      {
+        "time": 30,
+        "p1": 1,
+        "p2": 3
+      },
+      {
+        "time": 30,
+        "p1": 5,
+        "p2": 6
+      },
+      {
+        "time": 33,
+        "p1": 1,
+        "p2": 2
+      },
+      {
+        "time": 36,
+        "p1": 1,
+        "p2": 2
+      },
+      {
+        "time": 36,
+        "p1": 1,
+        "p2": 3
+      },
+      {
+        "time": 36,
+        "p1": 1,
+        "p2": 6
+      },
+      {
+        "time": 36,
+        "p1": 5,
+        "p2": 6
+      },
+      {
+        "time": 36,
+        "p1": 2,
+        "p2": 5
+      },
+      {
+        "time": 36,
+        "p1": 3,
+        "p2": 4
+      },
+      {
+        "time": 42,
+        "p1": 2,
+        "p2": 5
+      },
+      {
+        "time": 42,
+        "p1": 5,
+        "p2": 6
+      },
+      {
+        "time": 42,
+        "p1": 1,
+        "p2": 2
+      },
+      {
+        "time": 42,
+        "p1": 1,
+        "p2": 6
+      },
+      {
+        "time": 45,
+        "p1": 3,
+        "p2": 4
+      },
+      {
+        "time": 45,
+        "p1": 1,
+        "p2": 3
+      },
+      {
+        "time": 48,
+        "p1": 1,
+        "p2": 6
+      },
+      {
+        "time": 48,
+        "p1": 1,
+        "p2": 2
+      },
+      {
+        "time": 48,
+        "p1": 1,
+        "p2": 3
+      },
+      {
+        "time": 48,
+        "p1": 2,
+        "p2": 5
+      },
+      {
+        "time": 48,
+        "p1": 5,
+        "p2": 6
+      },
+      {
+        "time": 48,
+        "p1": 3,
+        "p2": 4
+      },
+      {
+        "time": 54,
+        "p1": 5,
+        "p2": 6
+      },
+      {
+        "time": 54,
+        "p1": 3,
+        "p2": 4
+      },
+      {
+        "time": 54,
+        "p1": 1,
+        "p2": 2
+      },
+      {
+        "time": 54,
+        "p1": 1,
+        "p2": 3
+      },
+      {
+        "time": 54,
+        "p1": 1,
+        "p2": 6
+      }
+    ],
+    "players": [
+      [
+        "Nan Nilavan",
+        "Civ 59",
+        2,
+        1231,
+        true,
+        19
+      ],
+      [
+        "Lone Wolf",
+        "Berbers",
+        3,
+        0,
+        false,
+        20
+      ],
+      [
+        "PaimPozhil",
+        "Khmer",
+        3,
+        972,
+        false,
+        12
+      ],
+      [
+        "KING STEVE HARRINGTON",
+        "Muisca",
+        2,
+        759,
+        true,
+        13
+      ],
+      [
+        "THEY DONT CARE ABOUT US",
+        "Italians",
+        2,
+        1088,
+        true,
+        26
+      ],
+      [
+        "mark_aoe_2024",
+        "Hindustanis",
+        3,
+        985,
+        false,
+        14
+      ]
+    ]
+  },
+  {
+    "replay": "MP Replay v101.103.39862.0 @2026.04.12 001921 (3).aoe2record",
+    "map": "Arabia",
+    "duration": "20:48",
+    "your_civ": "Khmer",
+    "your_elo": 972,
+    "your_eapm": 21,
+    "result": "WIN",
+    "focus_stats": {
+      "units_trained": {
+        "Villager": 54,
+        "Light Cavalry": 10
+      },
+      "unit_categories": {
+        "Villager": 54,
+        "Cavalry": 10
+      },
+      "research_timeline": [
+        {
+          "time": 7.7,
+          "name": "Castle Age"
+        },
+        {
+          "time": 10.1,
+          "name": "Loom"
+        },
+        {
+          "time": 10.6,
+          "name": "Horse Collar"
+        },
+        {
+          "time": 11.0,
+          "name": "Forging"
+        },
+        {
+          "time": 15.1,
+          "name": "Plate Barding Armor"
+        },
+        {
+          "time": 17.6,
+          "name": "Bloodlines"
+        }
+      ],
+      "age_times": {
+        "castle": 7.7
+      },
+      "eco_upgrades": {
+        "loom": 10.1,
+        "horse_collar": 10.6
+      },
+      "buildings_placed": 41,
+      "walls_built": 0,
+      "town_bells": 0,
+      "flares": 0,
+      "market_actions": 0,
+      "resign_time": null,
+      "total_actions": 445,
+      "villager_count": 54,
+      "military_count": 10
+    },
+    "coaching": {
+      "overall_grade": "C+",
+      "game_summary": "3v3 on Arabia - 20:48 (medium game)",
+      "player_reports": [
+        {
+          "name": "Nan Nilavan",
+          "civilization": "Civ 59",
+          "civ_type": "",
+          "winner": false,
+          "elo": 1231,
+          "elo_tier": "Intermediate",
+          "eapm": 29,
+          "team": 2,
+          "resigned": true,
+          "grade": "C",
+          "strengths": [],
+          "improvements": [
+            {
+              "area": "Actions Per Minute (Critical)",
+              "severity": "high",
+              "message": "Your EAPM of 29 is quite low. This means you're not giving enough commands, leading to idle units and idle economy.",
+              "advice": [
+                "Learn and drill hotkeys: Q/W/E for military buildings, H for TC",
+                "Practice the 'TC check loop': every few seconds, tap H to check your TC",
+                "Use control groups: select army, press Ctrl+1. Now press 1 to select them anytime",
+                "Play against the AI to practice multitasking without pressure",
+                "Watch T90's 'Low ELO Legends' for common mistakes to avoid"
+              ]
+            },
+            {
+              "area": "Climbing from 1231 ELO",
+              "severity": "medium",
+              "message": "At 1231 ELO (Intermediate), the biggest gains come from economy fundamentals.",
+              "advice": [
+                "Zero idle TC time is the #1 skill - always be making villagers until 120+ pop",
+                "Learn 2-3 build orders by heart (scouts, archers, fast castle)",
+                "Don't forget eco upgrades: Double-Bit Axe, Horse Collar, etc. on time",
+                "Scout your opponent in Feudal to know if you need to defend or attack"
+              ]
+            },
+            {
+              "area": "Mid-Game Execution",
+              "severity": "medium",
+              "message": "Resigned in the mid-game. The transition from Feudal to Castle Age is often where games are decided.",
+              "advice": [
+                "Get 2-3 TCs immediately after hitting Castle Age",
+                "Balance military production with eco growth",
+                "Don't over-commit to one unit type - adapt to what your opponent makes",
+                "Control key resources: gold and stone on the map"
+              ]
+            }
+          ],
+          "civ_advice": ""
+        },
+        {
+          "name": "Lone Wolf",
+          "civilization": "Berbers",
+          "civ_type": "Cavalry and Naval",
+          "winner": true,
+          "elo": 0,
+          "elo_tier": "Unranked",
+          "eapm": 25,
+          "team": 3,
+          "resigned": false,
+          "grade": "C+",
+          "strengths": [
+            "Won the game!"
+          ],
+          "improvements": [
+            {
+              "area": "Actions Per Minute (Critical)",
+              "severity": "high",
+              "message": "Your EAPM of 25 is quite low. This means you're not giving enough commands, leading to idle units and idle economy.",
+              "advice": [
+                "Learn and drill hotkeys: Q/W/E for military buildings, H for TC",
+                "Practice the 'TC check loop': every few seconds, tap H to check your TC",
+                "Use control groups: select army, press Ctrl+1. Now press 1 to select them anytime",
+                "Play against the AI to practice multitasking without pressure",
+                "Watch T90's 'Low ELO Legends' for common mistakes to avoid"
+              ]
+            }
+          ],
+          "civ_advice": "Cheaper stable units (15/20% discount). Camel Archers are excellent vs. other archer civs. Strong on open maps.",
+          "civ_bonuses": [
+            "Villagers move 10% faster.",
+            "Stable units are 15%/20% cheaper in the Castle/Imperial Age.",
+            "Ships move 10% faster."
+          ],
+          "unique_units": [
+            "Camel Archer",
+            "Genitour"
+          ],
+          "meta_tier": "A"
+        },
+        {
+          "name": "PaimPozhil",
+          "civilization": "Khmer",
+          "civ_type": "Siege and Elephant",
+          "winner": true,
+          "elo": 972,
+          "elo_tier": "Beginner",
+          "eapm": 21,
+          "team": 3,
+          "resigned": false,
+          "grade": "C+",
+          "strengths": [
+            "Won the game!"
+          ],
+          "improvements": [
+            {
+              "area": "Actions Per Minute (Critical)",
+              "severity": "high",
+              "message": "Your EAPM of 21 is quite low. This means you're not giving enough commands, leading to idle units and idle economy.",
+              "advice": [
+                "Learn and drill hotkeys: Q/W/E for military buildings, H for TC",
+                "Practice the 'TC check loop': every few seconds, tap H to check your TC",
+                "Use control groups: select army, press Ctrl+1. Now press 1 to select them anytime",
+                "Play against the AI to practice multitasking without pressure",
+                "Watch T90's 'Low ELO Legends' for common mistakes to avoid"
+              ]
+            },
+            {
+              "area": "Beginner Fundamentals (972 ELO)",
+              "severity": "high",
+              "message": "At 972 ELO, focus on the basics before strategy.",
+              "advice": [
+                "Learn ONE build order and practice it vs AI until you can do it from memory",
+                "Never stop making villagers - aim for 0 idle TC time in Dark Age",
+                "Use sheep efficiently: only kill one at a time, garrison scout",
+                "Watch Hera's 'Guide to 2000 ELO' series - best learning resource",
+                "Play ranked 1v1 to improve faster - team games mask individual mistakes"
+              ]
+            }
+          ],
+          "civ_advice": "No building requirements = flexible builds (skip barracks!). Scorpions are deadly. Ballista Elephants are unique.",
+          "civ_bonuses": [
+            "No building requirements to advance Ages or build structures.",
+            "Battle Elephants move 10% faster.",
+            "Villagers can garrison in Houses.",
+            "Farmers do not need to drop off food."
+          ],
+          "unique_units": [
+            "Ballista Elephant"
+          ],
+          "meta_tier": "A"
+        },
+        {
+          "name": "KING STEVE HARRINGTON",
+          "civilization": "Muisca",
+          "civ_type": "Monk and Economy",
+          "winner": false,
+          "elo": 759,
+          "elo_tier": "Beginner",
+          "eapm": 17,
+          "team": 2,
+          "resigned": true,
+          "grade": "C",
+          "strengths": [],
+          "improvements": [
+            {
+              "area": "Actions Per Minute (Critical)",
+              "severity": "high",
+              "message": "Your EAPM of 17 is quite low. This means you're not giving enough commands, leading to idle units and idle economy.",
+              "advice": [
+                "Learn and drill hotkeys: Q/W/E for military buildings, H for TC",
+                "Practice the 'TC check loop': every few seconds, tap H to check your TC",
+                "Use control groups: select army, press Ctrl+1. Now press 1 to select them anytime",
+                "Play against the AI to practice multitasking without pressure",
+                "Watch T90's 'Low ELO Legends' for common mistakes to avoid"
+              ]
+            },
+            {
+              "area": "Beginner Fundamentals (759 ELO)",
+              "severity": "high",
+              "message": "At 759 ELO, focus on the basics before strategy.",
+              "advice": [
+                "Learn ONE build order and practice it vs AI until you can do it from memory",
+                "Never stop making villagers - aim for 0 idle TC time in Dark Age",
+                "Use sheep efficiently: only kill one at a time, garrison scout",
+                "Watch Hera's 'Guide to 2000 ELO' series - best learning resource",
+                "Play ranked 1v1 to improve faster - team games mask individual mistakes"
+              ]
+            },
+            {
+              "area": "Mid-Game Execution",
+              "severity": "medium",
+              "message": "Resigned in the mid-game. The transition from Feudal to Castle Age is often where games are decided.",
+              "advice": [
+                "Get 2-3 TCs immediately after hitting Castle Age",
+                "Balance military production with eco growth",
+                "Don't over-commit to one unit type - adapt to what your opponent makes",
+                "Control key resources: gold and stone on the map"
+              ]
+            },
+            {
+              "area": "Team Contribution",
+              "severity": "medium",
+              "message": "Your EAPM (17) was significantly lower than your team average (27).",
+              "advice": [
+                "In team games, try to match your teammates' activity level",
+                "Help with rushes or defense coordination",
+                "Use flares (Alt+click minimap) to communicate with teammates",
+                "Pocket player? Focus on booming. Flank? Focus on defending and pressuring"
+              ]
+            },
+            {
+              "area": "Playing Muisca (Monk and Economy)",
+              "severity": "low",
+              "message": "As Muisca, leverage your unique strengths.",
+              "advice": [
+                "Guecha Warriors heal allies on death. Temple Guards ramp up attack speed. Cheap age-ups and healing Settlements.",
+                "Study pro replays of Muisca on YouTube",
+                "Master your unique units: Guecha Warrior, Temple Guard",
+                "Key bonus: Advancing to the next Age costs -50% gold."
+              ]
+            }
+          ],
+          "civ_advice": "Guecha Warriors heal allies on death. Temple Guards ramp up attack speed. Cheap age-ups and healing Settlements.",
+          "civ_bonuses": [
+            "Advancing to the next Age costs -50% gold.",
+            "Settlements cost -25% and heal allied units within 3 tiles by 5/10/15/15 HP/min in Dark/Feudal/Castle/Imperial Age.",
+            "The Champi Scout line and Archery Range units have +1/2/3 melee armor in the Feudal/Castle/Imperial Age.",
+            "Monks regain faith 100% faster."
+          ],
+          "unique_units": [
+            "Guecha Warrior",
+            "Temple Guard"
+          ],
+          "meta_tier": "B"
+        },
+        {
+          "name": "THEY DONT CARE ABOUT US",
+          "civilization": "Italians",
+          "civ_type": "Foot Archers and Navy",
+          "winner": false,
+          "elo": 1088,
+          "elo_tier": "Intermediate",
+          "eapm": 35,
+          "team": 2,
+          "resigned": true,
+          "grade": "C+",
+          "strengths": [
+            "Decent EAPM (35)",
+            "Highest activity on your team (EAPM: 35 vs team avg: 27)"
+          ],
+          "improvements": [
+            {
+              "area": "Actions Per Minute",
+              "severity": "medium",
+              "message": "Your EAPM of 35 is in the intermediate range. Higher EAPM means better multitasking.",
+              "advice": [
+                "Practice cycling through TCs with hotkeys (H key by default)",
+                "Use control groups for military (Ctrl+1, Ctrl+2, etc.)",
+                "Queue villagers while managing military - never let TC idle",
+                "Set rally points and use gather points efficiently"
+              ]
+            },
+            {
+              "area": "Climbing from 1088 ELO",
+              "severity": "medium",
+              "message": "At 1088 ELO (Intermediate), the biggest gains come from economy fundamentals.",
+              "advice": [
+                "Zero idle TC time is the #1 skill - always be making villagers until 120+ pop",
+                "Learn 2-3 build orders by heart (scouts, archers, fast castle)",
+                "Don't forget eco upgrades: Double-Bit Axe, Horse Collar, etc. on time",
+                "Scout your opponent in Feudal to know if you need to defend or attack"
+              ]
+            },
+            {
+              "area": "Mid-Game Execution",
+              "severity": "medium",
+              "message": "Resigned in the mid-game. The transition from Feudal to Castle Age is often where games are decided.",
+              "advice": [
+                "Get 2-3 TCs immediately after hitting Castle Age",
+                "Balance military production with eco growth",
+                "Don't over-commit to one unit type - adapt to what your opponent makes",
+                "Control key resources: gold and stone on the map"
+              ]
+            },
+            {
+              "area": "Playing Italians (Foot Archers and Navy)",
+              "severity": "low",
+              "message": "As Italians, leverage your unique strengths.",
+              "advice": [
+                "Genoese Crossbowmen shred cavalry. Cheaper age-ups give timing advantage. Condottiero counters gunpowder.",
+                "Study pro replays of Italians on YouTube",
+                "Master your unique units: Genoese Crossbowman, Condottiero",
+                "Key bonus: Advancing to the next Age is 15% cheaper."
+              ]
+            }
+          ],
+          "civ_advice": "Genoese Crossbowmen shred cavalry. Cheaper age-ups give timing advantage. Condottiero counters gunpowder.",
+          "civ_bonuses": [
+            "Advancing to the next Age is 15% cheaper.",
+            "Foot archers (except Skirmishers) and Condottieri +1/+1 armor.",
+            "Dock and University technologies are 25% cheaper.",
+            "Fishing Ships are 15% cheaper."
+          ],
+          "unique_units": [
+            "Genoese Crossbowman",
+            "Condottiero"
+          ],
+          "meta_tier": "B"
+        },
+        {
+          "name": "mark_aoe_2024",
+          "civilization": "Hindustanis",
+          "civ_type": "Camel and Gunpowder",
+          "winner": true,
+          "elo": 985,
+          "elo_tier": "Beginner",
+          "eapm": 29,
+          "team": 3,
+          "resigned": false,
+          "grade": "C+",
+          "strengths": [
+            "Won the game!"
+          ],
+          "improvements": [
+            {
+              "area": "Actions Per Minute (Critical)",
+              "severity": "high",
+              "message": "Your EAPM of 29 is quite low. This means you're not giving enough commands, leading to idle units and idle economy.",
+              "advice": [
+                "Learn and drill hotkeys: Q/W/E for military buildings, H for TC",
+                "Practice the 'TC check loop': every few seconds, tap H to check your TC",
+                "Use control groups: select army, press Ctrl+1. Now press 1 to select them anytime",
+                "Play against the AI to practice multitasking without pressure",
+                "Watch T90's 'Low ELO Legends' for common mistakes to avoid"
+              ]
+            },
+            {
+              "area": "Beginner Fundamentals (985 ELO)",
+              "severity": "high",
+              "message": "At 985 ELO, focus on the basics before strategy.",
+              "advice": [
+                "Learn ONE build order and practice it vs AI until you can do it from memory",
+                "Never stop making villagers - aim for 0 idle TC time in Dark Age",
+                "Use sheep efficiently: only kill one at a time, garrison scout",
+                "Watch Hera's 'Guide to 2000 ELO' series - best learning resource",
+                "Play ranked 1v1 to improve faster - team games mask individual mistakes"
+              ]
+            }
+          ],
+          "civ_advice": "Ghulams counter archers. Camels attack faster = cavalry counter. Caravanserai heals and shields trade.",
+          "civ_bonuses": [
+            "Villagers cost -5%/10%/15%/20% in the Dark/Feudal/Castle/Imperial Age.",
+            "Camel Riders attack 20% faster.",
+            "Gunpowder units +1/+1 armor.",
+            "Can build Caravanserais in the Imperial Age."
+          ],
+          "unique_units": [
+            "Ghulam"
+          ],
+          "meta_tier": "A"
+        }
+      ],
+      "tips": [
+        {
+          "category": "Lobby",
+          "tip": "Average ELO in this game: 1007 (Intermediate level)"
+        },
+        {
+          "category": "Golden Rule",
+          "tip": "The #1 skill at EVERY ELO: keep your TC producing villagers. Zero idle TC time wins more games than any strategy."
+        }
+      ],
+      "focus_areas": [
+        {
+          "area": "Actions Per Minute (Critical)",
+          "severity": "high",
+          "message": "Your EAPM of 21 is quite low. This means you're not giving enough commands, leading to idle units and idle economy.",
+          "advice": [
+            "Learn and drill hotkeys: Q/W/E for military buildings, H for TC",
+            "Practice the 'TC check loop': every few seconds, tap H to check your TC",
+            "Use control groups: select army, press Ctrl+1. Now press 1 to select them anytime",
+            "Play against the AI to practice multitasking without pressure",
+            "Watch T90's 'Low ELO Legends' for common mistakes to avoid"
+          ]
+        },
+        {
+          "area": "Beginner Fundamentals (972 ELO)",
+          "severity": "high",
+          "message": "At 972 ELO, focus on the basics before strategy.",
+          "advice": [
+            "Learn ONE build order and practice it vs AI until you can do it from memory",
+            "Never stop making villagers - aim for 0 idle TC time in Dark Age",
+            "Use sheep efficiently: only kill one at a time, garrison scout",
+            "Watch Hera's 'Guide to 2000 ELO' series - best learning resource",
+            "Play ranked 1v1 to improve faster - team games mask individual mistakes"
+          ]
+        }
+      ]
+    },
+    "engagements": [
+      {
+        "time": 6,
+        "p1": 5,
+        "p2": 6
+      },
+      {
+        "time": 6,
+        "p1": 3,
+        "p2": 4
+      },
+      {
+        "time": 12,
+        "p1": 3,
+        "p2": 4
+      },
+      {
+        "time": 12,
+        "p1": 2,
+        "p2": 5
+      },
+      {
+        "time": 12,
+        "p1": 5,
+        "p2": 6
+      },
+      {
+        "time": 12,
+        "p1": 1,
+        "p2": 3
+      },
+      {
+        "time": 15,
+        "p1": 1,
+        "p2": 2
+      },
+      {
+        "time": 18,
+        "p1": 5,
+        "p2": 6
+      },
+      {
+        "time": 18,
+        "p1": 3,
+        "p2": 4
+      },
+      {
+        "time": 18,
+        "p1": 1,
+        "p2": 6
+      },
+      {
+        "time": 18,
+        "p1": 1,
+        "p2": 2
+      }
+    ],
+    "players": [
+      [
+        "Nan Nilavan",
+        "Civ 59",
+        2,
+        1231,
+        false,
+        29
+      ],
+      [
+        "Lone Wolf",
+        "Berbers",
+        3,
+        0,
+        true,
+        25
+      ],
+      [
+        "PaimPozhil",
+        "Khmer",
+        3,
+        972,
+        true,
+        21
+      ],
+      [
+        "KING STEVE HARRINGTON",
+        "Muisca",
+        2,
+        759,
+        false,
+        17
+      ],
+      [
+        "THEY DONT CARE ABOUT US",
+        "Italians",
+        2,
+        1088,
+        false,
+        35
+      ],
+      [
+        "mark_aoe_2024",
+        "Hindustanis",
+        3,
+        985,
+        true,
+        29
+      ]
+    ]
+  },
+  {
+    "replay": "MP Replay v101.103.39862.0 @2026.04.11 234342 (4).aoe2record",
+    "map": "Arabia",
+    "duration": "46:30",
+    "your_civ": "Wu",
+    "your_elo": 972,
+    "your_eapm": 18,
+    "result": "LOSS",
+    "focus_stats": {
+      "units_trained": {
+        "Villager": 82,
+        "Militia": 4,
+        "Man-at-Arms": 7,
+        "Skirmisher": 24,
+        "Unit#1968": 2,
+        "Unit#1942": 1
+      },
+      "unit_categories": {
+        "Villager": 82,
+        "Infantry": 11,
+        "Archer": 24,
+        "Unique Unit": 3
+      },
+      "research_timeline": [
+        {
+          "time": 7.1,
+          "name": "Loom"
+        },
+        {
+          "time": 7.8,
+          "name": "Castle Age"
+        },
+        {
+          "time": 10.5,
+          "name": "Horse Collar"
+        },
+        {
+          "time": 13.4,
+          "name": "Man-at-Arms"
+        },
+        {
+          "time": 14.7,
+          "name": "Long Swordsman"
+        },
+        {
+          "time": 15.4,
+          "name": "Champion"
+        },
+        {
+          "time": 17.0,
+          "name": "Squires"
+        },
+        {
+          "time": 20.9,
+          "name": "Gold Shaft Mining"
+        },
+        {
+          "time": 26.0,
+          "name": "Imperial Age"
+        },
+        {
+          "time": 27.0,
+          "name": "Double-Bit Axe"
+        },
+        {
+          "time": 27.4,
+          "name": "Stone Mining"
+        },
+        {
+          "time": 29.3,
+          "name": "Heavy Plow"
+        },
+        {
+          "time": 29.6,
+          "name": "Paladin"
+        },
+        {
+          "time": 31.0,
+          "name": "Tech#98"
+        },
+        {
+          "time": 33.4,
+          "name": "Bow Saw"
+        },
+        {
+          "time": 40.4,
+          "name": "Imperial Age"
+        },
+        {
+          "time": 41.5,
+          "name": "Siege Engineers"
+        },
+        {
+          "time": 43.5,
+          "name": "Sappers"
+        }
+      ],
+      "age_times": {
+        "castle": 7.8,
+        "imperial": 26.0
+      },
+      "eco_upgrades": {
+        "loom": 7.1,
+        "horse_collar": 10.5,
+        "double_bit_axe": 27.0
+      },
+      "buildings_placed": 46,
+      "walls_built": 0,
+      "town_bells": 3,
+      "flares": 4,
+      "market_actions": 11,
+      "resign_time": 45.9,
+      "total_actions": 818,
+      "villager_count": 82,
+      "military_count": 38
+    },
+    "coaching": {
+      "overall_grade": "C",
+      "game_summary": "3v3 on Arabia - 46:30 (long game)",
+      "player_reports": [
+        {
+          "name": "Nan Nilavan",
+          "civilization": "Civ 58",
+          "civ_type": "",
+          "winner": true,
+          "elo": 1231,
+          "elo_tier": "Intermediate",
+          "eapm": 28,
+          "team": 2,
+          "resigned": false,
+          "grade": "C+",
+          "strengths": [
+            "Won the game!",
+            "Survived a long game - good late-game endurance"
+          ],
+          "improvements": [
+            {
+              "area": "Actions Per Minute (Critical)",
+              "severity": "high",
+              "message": "Your EAPM of 28 is quite low. This means you're not giving enough commands, leading to idle units and idle economy.",
+              "advice": [
+                "Learn and drill hotkeys: Q/W/E for military buildings, H for TC",
+                "Practice the 'TC check loop': every few seconds, tap H to check your TC",
+                "Use control groups: select army, press Ctrl+1. Now press 1 to select them anytime",
+                "Play against the AI to practice multitasking without pressure",
+                "Watch T90's 'Low ELO Legends' for common mistakes to avoid"
+              ]
+            },
+            {
+              "area": "Climbing from 1231 ELO",
+              "severity": "medium",
+              "message": "At 1231 ELO (Intermediate), the biggest gains come from economy fundamentals.",
+              "advice": [
+                "Zero idle TC time is the #1 skill - always be making villagers until 120+ pop",
+                "Learn 2-3 build orders by heart (scouts, archers, fast castle)",
+                "Don't forget eco upgrades: Double-Bit Axe, Horse Collar, etc. on time",
+                "Scout your opponent in Feudal to know if you need to defend or attack"
+              ]
+            }
+          ],
+          "civ_advice": ""
+        },
+        {
+          "name": "KING STEVE HARRINGTON",
+          "civilization": "Mapuche",
+          "civ_type": "Cavalry and counter-units",
+          "winner": true,
+          "elo": 759,
+          "elo_tier": "Beginner",
+          "eapm": 18,
+          "team": 2,
+          "resigned": false,
+          "grade": "C+",
+          "strengths": [
+            "Won the game!",
+            "Survived a long game - good late-game endurance"
+          ],
+          "improvements": [
+            {
+              "area": "Actions Per Minute (Critical)",
+              "severity": "high",
+              "message": "Your EAPM of 18 is quite low. This means you're not giving enough commands, leading to idle units and idle economy.",
+              "advice": [
+                "Learn and drill hotkeys: Q/W/E for military buildings, H for TC",
+                "Practice the 'TC check loop': every few seconds, tap H to check your TC",
+                "Use control groups: select army, press Ctrl+1. Now press 1 to select them anytime",
+                "Play against the AI to practice multitasking without pressure",
+                "Watch T90's 'Low ELO Legends' for common mistakes to avoid"
+              ]
+            },
+            {
+              "area": "Beginner Fundamentals (759 ELO)",
+              "severity": "high",
+              "message": "At 759 ELO, focus on the basics before strategy.",
+              "advice": [
+                "Learn ONE build order and practice it vs AI until you can do it from memory",
+                "Never stop making villagers - aim for 0 idle TC time in Dark Age",
+                "Use sheep efficiently: only kill one at a time, garrison scout",
+                "Watch Hera's 'Guide to 2000 ELO' series - best learning resource",
+                "Play ranked 1v1 to improve faster - team games mask individual mistakes"
+              ]
+            },
+            {
+              "area": "Team Contribution",
+              "severity": "medium",
+              "message": "Your EAPM (18) was significantly lower than your team average (28).",
+              "advice": [
+                "In team games, try to match your teammates' activity level",
+                "Help with rushes or defense coordination",
+                "Use flares (Alt+click minimap) to communicate with teammates",
+                "Pocket player? Focus on booming. Flank? Focus on defending and pressuring"
+              ]
+            }
+          ],
+          "civ_advice": "Bolas Riders slow enemies. Kona deals extra damage to injured targets. Settlements train spears and skirms for defense.",
+          "civ_bonuses": [
+            "Foragers drop off +20% food.",
+            "Settlements can train the Spearman and Skirmisher lines.",
+            "Infantry, Slingers, and Skirmishers get +5/10/15 hit points in the Feudal/Castle/Imperial Age.",
+            "Mounted units generate +3 gold per military unit killed."
+          ],
+          "unique_units": [
+            "Bolas Rider",
+            "Kona"
+          ],
+          "meta_tier": "B"
+        },
+        {
+          "name": "Lone Wolf",
+          "civilization": "Berbers",
+          "civ_type": "Cavalry and Naval",
+          "winner": false,
+          "elo": 0,
+          "elo_tier": "Unranked",
+          "eapm": 27,
+          "team": 3,
+          "resigned": true,
+          "grade": "C",
+          "strengths": [],
+          "improvements": [
+            {
+              "area": "Actions Per Minute (Critical)",
+              "severity": "high",
+              "message": "Your EAPM of 27 is quite low. This means you're not giving enough commands, leading to idle units and idle economy.",
+              "advice": [
+                "Learn and drill hotkeys: Q/W/E for military buildings, H for TC",
+                "Practice the 'TC check loop': every few seconds, tap H to check your TC",
+                "Use control groups: select army, press Ctrl+1. Now press 1 to select them anytime",
+                "Play against the AI to practice multitasking without pressure",
+                "Watch T90's 'Low ELO Legends' for common mistakes to avoid"
+              ]
+            },
+            {
+              "area": "Late Game Decision Making",
+              "severity": "low",
+              "message": "Resigned in a long game. Late game is about trade, map control, and composition switches.",
+              "advice": [
+                "Set up trade early (by 35 minutes) - gold wins late games",
+                "Learn trash unit transitions: halberdiers + skirmishers when gold runs out",
+                "Control relics for trickle gold income",
+                "Don't forget trebuchets - you need siege to close out games"
+              ]
+            },
+            {
+              "area": "Playing Berbers (Cavalry and Naval)",
+              "severity": "low",
+              "message": "As Berbers, leverage your unique strengths.",
+              "advice": [
+                "Cheaper stable units (15/20% discount). Camel Archers are excellent vs. other archer civs. Strong on open maps.",
+                "Study pro replays of Berbers on YouTube",
+                "Master your unique units: Camel Archer, Genitour",
+                "Key bonus: Villagers move 10% faster."
+              ]
+            }
+          ],
+          "civ_advice": "Cheaper stable units (15/20% discount). Camel Archers are excellent vs. other archer civs. Strong on open maps.",
+          "civ_bonuses": [
+            "Villagers move 10% faster.",
+            "Stable units are 15%/20% cheaper in the Castle/Imperial Age.",
+            "Ships move 10% faster."
+          ],
+          "unique_units": [
+            "Camel Archer",
+            "Genitour"
+          ],
+          "meta_tier": "A"
+        },
+        {
+          "name": "PaimPozhil",
+          "civilization": "Wu",
+          "civ_type": "Naval and Archer",
+          "winner": false,
+          "elo": 972,
+          "elo_tier": "Beginner",
+          "eapm": 18,
+          "team": 3,
+          "resigned": true,
+          "grade": "C",
+          "strengths": [],
+          "improvements": [
+            {
+              "area": "Actions Per Minute (Critical)",
+              "severity": "high",
+              "message": "Your EAPM of 18 is quite low. This means you're not giving enough commands, leading to idle units and idle economy.",
+              "advice": [
+                "Learn and drill hotkeys: Q/W/E for military buildings, H for TC",
+                "Practice the 'TC check loop': every few seconds, tap H to check your TC",
+                "Use control groups: select army, press Ctrl+1. Now press 1 to select them anytime",
+                "Play against the AI to practice multitasking without pressure",
+                "Watch T90's 'Low ELO Legends' for common mistakes to avoid"
+              ]
+            },
+            {
+              "area": "Beginner Fundamentals (972 ELO)",
+              "severity": "high",
+              "message": "At 972 ELO, focus on the basics before strategy.",
+              "advice": [
+                "Learn ONE build order and practice it vs AI until you can do it from memory",
+                "Never stop making villagers - aim for 0 idle TC time in Dark Age",
+                "Use sheep efficiently: only kill one at a time, garrison scout",
+                "Watch Hera's 'Guide to 2000 ELO' series - best learning resource",
+                "Play ranked 1v1 to improve faster - team games mask individual mistakes"
+              ]
+            },
+            {
+              "area": "Late Game Decision Making",
+              "severity": "low",
+              "message": "Resigned in a long game. Late game is about trade, map control, and composition switches.",
+              "advice": [
+                "Set up trade early (by 35 minutes) - gold wins late games",
+                "Learn trash unit transitions: halberdiers + skirmishers when gold runs out",
+                "Control relics for trickle gold income",
+                "Don't forget trebuchets - you need siege to close out games"
+              ]
+            },
+            {
+              "area": "Playing Wu (Naval and Archer)",
+              "severity": "low",
+              "message": "As Wu, leverage your unique strengths.",
+              "advice": [
+                "Zhangjian Swordsmen are strong melee fighters. Lou Chuans dominate water. Fire units have extended range and leave fire.",
+                "Study pro replays of Wu on YouTube",
+                "Master your unique units: Zhangjian Swordsman, Lou Chuan",
+                "Key bonus: Lumber Camp upgrades provide Villagers +1 carry capacity each."
+              ]
+            }
+          ],
+          "civ_advice": "Zhangjian Swordsmen are strong melee fighters. Lou Chuans dominate water. Fire units have extended range and leave fire.",
+          "civ_bonuses": [
+            "Lumber Camp upgrades provide Villagers +1 carry capacity each.",
+            "Fire Galley-line and Fire Lancers have +1 range and +10%/20% hit points in Castle/Imperial Age.",
+            "Military buildings are built 50% faster.",
+            "Docks provide +5 population space."
+          ],
+          "unique_units": [
+            "Zhangjian Swordsman",
+            "Lou Chuan"
+          ],
+          "meta_tier": "B"
+        },
+        {
+          "name": "mark_aoe_2024",
+          "civilization": "Chinese",
+          "civ_type": "Archer and Gunpowder",
+          "winner": false,
+          "elo": 985,
+          "elo_tier": "Beginner",
+          "eapm": 26,
+          "team": 3,
+          "resigned": true,
+          "grade": "C",
+          "strengths": [],
+          "improvements": [
+            {
+              "area": "Actions Per Minute (Critical)",
+              "severity": "high",
+              "message": "Your EAPM of 26 is quite low. This means you're not giving enough commands, leading to idle units and idle economy.",
+              "advice": [
+                "Learn and drill hotkeys: Q/W/E for military buildings, H for TC",
+                "Practice the 'TC check loop': every few seconds, tap H to check your TC",
+                "Use control groups: select army, press Ctrl+1. Now press 1 to select them anytime",
+                "Play against the AI to practice multitasking without pressure",
+                "Watch T90's 'Low ELO Legends' for common mistakes to avoid"
+              ]
+            },
+            {
+              "area": "Beginner Fundamentals (985 ELO)",
+              "severity": "high",
+              "message": "At 985 ELO, focus on the basics before strategy.",
+              "advice": [
+                "Learn ONE build order and practice it vs AI until you can do it from memory",
+                "Never stop making villagers - aim for 0 idle TC time in Dark Age",
+                "Use sheep efficiently: only kill one at a time, garrison scout",
+                "Watch Hera's 'Guide to 2000 ELO' series - best learning resource",
+                "Play ranked 1v1 to improve faster - team games mask individual mistakes"
+              ]
+            },
+            {
+              "area": "Late Game Decision Making",
+              "severity": "low",
+              "message": "Resigned in a long game. Late game is about trade, map control, and composition switches.",
+              "advice": [
+                "Set up trade early (by 35 minutes) - gold wins late games",
+                "Learn trash unit transitions: halberdiers + skirmishers when gold runs out",
+                "Control relics for trickle gold income",
+                "Don't forget trebuchets - you need siege to close out games"
+              ]
+            },
+            {
+              "area": "Playing Chinese (Archer and Gunpowder)",
+              "severity": "low",
+              "message": "As Chinese, leverage your unique strengths.",
+              "advice": [
+                "Tough start with fewer resources. Once stable, excellent tech tree. Chu Ko Nu shreds. Dragon Ships dominate water.",
+                "Study pro replays of Chinese on YouTube",
+                "Master your unique units: Chu Ko Nu, Dragon Ship",
+                "Key bonus: Start game with +3 Villagers, but with -200 food, -50 wood."
+              ]
+            }
+          ],
+          "civ_advice": "Tough start with fewer resources. Once stable, excellent tech tree. Chu Ko Nu shreds. Dragon Ships dominate water.",
+          "civ_bonuses": [
+            "Start game with +3 Villagers, but with -200 food, -50 wood.",
+            "Town Centers support 15 population (instead of 5) and have +7 Line of Sight.",
+            "Technologies are 5%/10%/15% cheaper in the Feudal/Castle/Imperial Age, respectively.",
+            "Fire Galley-line and Fire Lancers move 5%/10% faster in the Castle/Imperial Ages, respectively."
+          ],
+          "unique_units": [
+            "Chu Ko Nu",
+            "Dragon Ship"
+          ],
+          "meta_tier": "A"
+        },
+        {
+          "name": "THEY DONT CARE ABOUT US",
+          "civilization": "Burmese",
+          "civ_type": "Infantry and Cavalry",
+          "winner": true,
+          "elo": 1088,
+          "elo_tier": "Intermediate",
+          "eapm": 40,
+          "team": 2,
+          "resigned": false,
+          "grade": "B+",
+          "strengths": [
+            "Decent EAPM (40)",
+            "Won the game!",
+            "Survived a long game - good late-game endurance",
+            "Highest activity on your team (EAPM: 40 vs team avg: 28)"
+          ],
+          "improvements": [
+            {
+              "area": "Actions Per Minute",
+              "severity": "medium",
+              "message": "Your EAPM of 40 is in the intermediate range. Higher EAPM means better multitasking.",
+              "advice": [
+                "Practice cycling through TCs with hotkeys (H key by default)",
+                "Use control groups for military (Ctrl+1, Ctrl+2, etc.)",
+                "Queue villagers while managing military - never let TC idle",
+                "Set rally points and use gather points efficiently"
+              ]
+            },
+            {
+              "area": "Climbing from 1088 ELO",
+              "severity": "medium",
+              "message": "At 1088 ELO (Intermediate), the biggest gains come from economy fundamentals.",
+              "advice": [
+                "Zero idle TC time is the #1 skill - always be making villagers until 120+ pop",
+                "Learn 2-3 build orders by heart (scouts, archers, fast castle)",
+                "Don't forget eco upgrades: Double-Bit Axe, Horse Collar, etc. on time",
+                "Scout your opponent in Feudal to know if you need to defend or attack"
+              ]
+            }
+          ],
+          "civ_advice": "Free lumber camp techs boost early eco. Arambai hit hard but inaccurately. Monks with cheap monastery techs.",
+          "civ_bonuses": [
+            "Free Lumber Camp upgrades.",
+            "Infantry +1/+2/+3 attack in the Feudal/Castle/Imperial Age.",
+            "Monastery technologies cost -50%."
+          ],
+          "unique_units": [
+            "Arambai"
+          ],
+          "meta_tier": "B"
+        }
+      ],
+      "tips": [
+        {
+          "category": "Late Game",
+          "tip": "60+ minute game. Set up trade by 35 min. Learn trash transitions (halbs + skirms). Control relics."
+        },
+        {
+          "category": "Lobby",
+          "tip": "Average ELO in this game: 1007 (Intermediate level)"
+        },
+        {
+          "category": "Golden Rule",
+          "tip": "The #1 skill at EVERY ELO: keep your TC producing villagers. Zero idle TC time wins more games than any strategy."
+        }
+      ],
+      "focus_areas": [
+        {
+          "area": "Actions Per Minute (Critical)",
+          "severity": "high",
+          "message": "Your EAPM of 18 is quite low. This means you're not giving enough commands, leading to idle units and idle economy.",
+          "advice": [
+            "Learn and drill hotkeys: Q/W/E for military buildings, H for TC",
+            "Practice the 'TC check loop': every few seconds, tap H to check your TC",
+            "Use control groups: select army, press Ctrl+1. Now press 1 to select them anytime",
+            "Play against the AI to practice multitasking without pressure",
+            "Watch T90's 'Low ELO Legends' for common mistakes to avoid"
+          ]
+        },
+        {
+          "area": "Beginner Fundamentals (972 ELO)",
+          "severity": "high",
+          "message": "At 972 ELO, focus on the basics before strategy.",
+          "advice": [
+            "Learn ONE build order and practice it vs AI until you can do it from memory",
+            "Never stop making villagers - aim for 0 idle TC time in Dark Age",
+            "Use sheep efficiently: only kill one at a time, garrison scout",
+            "Watch Hera's 'Guide to 2000 ELO' series - best learning resource",
+            "Play ranked 1v1 to improve faster - team games mask individual mistakes"
+          ]
+        },
+        {
+          "area": "Late Game Decision Making",
+          "severity": "low",
+          "message": "Resigned in a long game. Late game is about trade, map control, and composition switches.",
+          "advice": [
+            "Set up trade early (by 35 minutes) - gold wins late games",
+            "Learn trash unit transitions: halberdiers + skirmishers when gold runs out",
+            "Control relics for trickle gold income",
+            "Don't forget trebuchets - you need siege to close out games"
+          ]
+        },
+        {
+          "area": "Playing Wu (Naval and Archer)",
+          "severity": "low",
+          "message": "As Wu, leverage your unique strengths.",
+          "advice": [
+            "Zhangjian Swordsmen are strong melee fighters. Lou Chuans dominate water. Fire units have extended range and leave fire.",
+            "Study pro replays of Wu on YouTube",
+            "Master your unique units: Zhangjian Swordsman, Lou Chuan",
+            "Key bonus: Lumber Camp upgrades provide Villagers +1 carry capacity each."
+          ]
+        }
+      ]
+    },
+    "engagements": [
+      {
+        "time": 6,
+        "p1": 4,
+        "p2": 6
+      },
+      {
+        "time": 9,
+        "p1": 2,
+        "p2": 5
+      },
+      {
+        "time": 12,
+        "p1": 4,
+        "p2": 6
+      },
+      {
+        "time": 15,
+        "p1": 1,
+        "p2": 5
+      },
+      {
+        "time": 15,
+        "p1": 2,
+        "p2": 5
+      },
+      {
+        "time": 18,
+        "p1": 4,
+        "p2": 6
+      },
+      {
+        "time": 18,
+        "p1": 1,
+        "p2": 5
+      },
+      {
+        "time": 18,
+        "p1": 2,
+        "p2": 5
+      },
+      {
+        "time": 21,
+        "p1": 3,
+        "p2": 6
+      },
+      {
+        "time": 24,
+        "p1": 1,
+        "p2": 5
+      },
+      {
+        "time": 24,
+        "p1": 3,
+        "p2": 6
+      },
+      {
+        "time": 24,
+        "p1": 2,
+        "p2": 5
+      },
+      {
+        "time": 27,
+        "p1": 2,
+        "p2": 3
+      },
+      {
+        "time": 27,
+        "p1": 1,
+        "p2": 3
+      },
+      {
+        "time": 30,
+        "p1": 1,
+        "p2": 3
+      },
+      {
+        "time": 30,
+        "p1": 1,
+        "p2": 5
+      },
+      {
+        "time": 30,
+        "p1": 2,
+        "p2": 3
+      },
+      {
+        "time": 30,
+        "p1": 2,
+        "p2": 5
+      },
+      {
+        "time": 33,
+        "p1": 3,
+        "p2": 6
+      },
+      {
+        "time": 36,
+        "p1": 4,
+        "p2": 6
+      },
+      {
+        "time": 36,
+        "p1": 3,
+        "p2": 6
+      },
+      {
+        "time": 36,
+        "p1": 2,
+        "p2": 3
+      },
+      {
+        "time": 36,
+        "p1": 2,
+        "p2": 5
+      },
+      {
+        "time": 39,
+        "p1": 1,
+        "p2": 5
+      },
+      {
+        "time": 42,
+        "p1": 4,
+        "p2": 6
+      },
+      {
+        "time": 42,
+        "p1": 1,
+        "p2": 5
+      },
+      {
+        "time": 42,
+        "p1": 1,
+        "p2": 3
+      },
+      {
+        "time": 42,
+        "p1": 2,
+        "p2": 5
+      },
+      {
+        "time": 42,
+        "p1": 2,
+        "p2": 3
+      },
+      {
+        "time": 45,
+        "p1": 3,
+        "p2": 6
+      }
+    ],
+    "players": [
+      [
+        "Nan Nilavan",
+        "Civ 58",
+        2,
+        1231,
+        true,
+        28
+      ],
+      [
+        "KING STEVE HARRINGTON",
+        "Mapuche",
+        2,
+        759,
+        true,
+        18
+      ],
+      [
+        "Lone Wolf",
+        "Berbers",
+        3,
+        0,
+        false,
+        27
+      ],
+      [
+        "PaimPozhil",
+        "Wu",
+        3,
+        972,
+        false,
+        18
+      ],
+      [
+        "mark_aoe_2024",
+        "Chinese",
+        3,
+        985,
+        false,
+        26
+      ],
+      [
+        "THEY DONT CARE ABOUT US",
+        "Burmese",
+        2,
+        1088,
+        true,
+        40
+      ]
+    ]
+  },
+  {
+    "replay": "MP Replay v101.103.39862.0 @2026.04.06 003115 (3).aoe2record",
+    "map": "Arabia",
+    "duration": "46:59",
+    "your_civ": "Goths",
+    "your_elo": 972,
+    "your_eapm": 24,
+    "result": "WIN",
+    "focus_stats": {
+      "units_trained": {
+        "Villager": 127,
+        "Spearman": 7,
+        "Man-at-Arms": 189,
+        "Unit#1258": 5,
+        "Pikeman": 4,
+        "Mangonel": 3
+      },
+      "unit_categories": {
+        "Villager": 127,
+        "Infantry": 200,
+        "Unique Unit": 5,
+        "Siege": 3
+      },
+      "research_timeline": [
+        {
+          "time": 7.5,
+          "name": "Loom"
+        },
+        {
+          "time": 8.2,
+          "name": "Castle Age"
+        },
+        {
+          "time": 10.6,
+          "name": "Loom"
+        },
+        {
+          "time": 10.8,
+          "name": "Horse Collar"
+        },
+        {
+          "time": 11.8,
+          "name": "Forging"
+        },
+        {
+          "time": 13.2,
+          "name": "Long Swordsman"
+        },
+        {
+          "time": 15.0,
+          "name": "Squires"
+        },
+        {
+          "time": 16.3,
+          "name": "Man-at-Arms"
+        },
+        {
+          "time": 19.7,
+          "name": "Imperial Age"
+        },
+        {
+          "time": 24.0,
+          "name": "Tech#207"
+        },
+        {
+          "time": 29.7,
+          "name": "Blast Furnace"
+        },
+        {
+          "time": 30.6,
+          "name": "Arbalester"
+        },
+        {
+          "time": 31.3,
+          "name": "Pikeman"
+        },
+        {
+          "time": 33.0,
+          "name": "Ring Archer Armor"
+        },
+        {
+          "time": 35.9,
+          "name": "Pikeman"
+        },
+        {
+          "time": 40.4,
+          "name": "Heavy Plow"
+        },
+        {
+          "time": 42.2,
+          "name": "Gold Shaft Mining"
+        },
+        {
+          "time": 44.1,
+          "name": "Sappers"
+        }
+      ],
+      "age_times": {
+        "castle": 8.2,
+        "imperial": 19.7
+      },
+      "eco_upgrades": {
+        "loom": 10.6,
+        "horse_collar": 10.8
+      },
+      "buildings_placed": 99,
+      "walls_built": 0,
+      "town_bells": 0,
+      "flares": 0,
+      "market_actions": 17,
+      "resign_time": null,
+      "total_actions": 1114,
+      "villager_count": 127,
+      "military_count": 208
+    },
+    "coaching": {
+      "overall_grade": "C+",
+      "game_summary": "7-player on Arabia - 46:59 (long game)",
+      "player_reports": [
+        {
+          "name": "Nan Nilavan",
+          "civilization": "Mapuche",
+          "civ_type": "Cavalry and counter-units",
+          "winner": false,
+          "elo": 1230,
+          "elo_tier": "Intermediate",
+          "eapm": 32,
+          "team": 3,
+          "resigned": true,
+          "grade": "B",
+          "strengths": [
+            "Decent EAPM (32)"
+          ],
+          "improvements": [
+            {
+              "area": "Actions Per Minute",
+              "severity": "medium",
+              "message": "Your EAPM of 32 is in the intermediate range. Higher EAPM means better multitasking.",
+              "advice": [
+                "Practice cycling through TCs with hotkeys (H key by default)",
+                "Use control groups for military (Ctrl+1, Ctrl+2, etc.)",
+                "Queue villagers while managing military - never let TC idle",
+                "Set rally points and use gather points efficiently"
+              ]
+            },
+            {
+              "area": "Climbing from 1230 ELO",
+              "severity": "medium",
+              "message": "At 1230 ELO (Intermediate), the biggest gains come from economy fundamentals.",
+              "advice": [
+                "Zero idle TC time is the #1 skill - always be making villagers until 120+ pop",
+                "Learn 2-3 build orders by heart (scouts, archers, fast castle)",
+                "Don't forget eco upgrades: Double-Bit Axe, Horse Collar, etc. on time",
+                "Scout your opponent in Feudal to know if you need to defend or attack"
+              ]
+            },
+            {
+              "area": "Late Game Decision Making",
+              "severity": "low",
+              "message": "Resigned in a long game. Late game is about trade, map control, and composition switches.",
+              "advice": [
+                "Set up trade early (by 35 minutes) - gold wins late games",
+                "Learn trash unit transitions: halberdiers + skirmishers when gold runs out",
+                "Control relics for trickle gold income",
+                "Don't forget trebuchets - you need siege to close out games"
+              ]
+            },
+            {
+              "area": "Playing Mapuche (Cavalry and counter-units)",
+              "severity": "low",
+              "message": "As Mapuche, leverage your unique strengths.",
+              "advice": [
+                "Bolas Riders slow enemies. Kona deals extra damage to injured targets. Settlements train spears and skirms for defense.",
+                "Study pro replays of Mapuche on YouTube",
+                "Master your unique units: Bolas Rider, Kona",
+                "Key bonus: Foragers drop off +20% food."
+              ]
+            }
+          ],
+          "civ_advice": "Bolas Riders slow enemies. Kona deals extra damage to injured targets. Settlements train spears and skirms for defense.",
+          "civ_bonuses": [
+            "Foragers drop off +20% food.",
+            "Settlements can train the Spearman and Skirmisher lines.",
+            "Infantry, Slingers, and Skirmishers get +5/10/15 hit points in the Feudal/Castle/Imperial Age.",
+            "Mounted units generate +3 gold per military unit killed."
+          ],
+          "unique_units": [
+            "Bolas Rider",
+            "Kona"
+          ],
+          "meta_tier": "B"
+        },
+        {
+          "name": "Lone Wolf",
+          "civilization": "Berbers",
+          "civ_type": "Cavalry and Naval",
+          "winner": true,
+          "elo": 0,
+          "elo_tier": "Unranked",
+          "eapm": 36,
+          "team": 2,
+          "resigned": false,
+          "grade": "B+",
+          "strengths": [
+            "Decent EAPM (36)",
+            "Won the game!",
+            "Survived a long game - good late-game endurance",
+            "Highest activity on your team (EAPM: 36 vs team avg: 25)"
+          ],
+          "improvements": [
+            {
+              "area": "Actions Per Minute",
+              "severity": "medium",
+              "message": "Your EAPM of 36 is in the intermediate range. Higher EAPM means better multitasking.",
+              "advice": [
+                "Practice cycling through TCs with hotkeys (H key by default)",
+                "Use control groups for military (Ctrl+1, Ctrl+2, etc.)",
+                "Queue villagers while managing military - never let TC idle",
+                "Set rally points and use gather points efficiently"
+              ]
+            }
+          ],
+          "civ_advice": "Cheaper stable units (15/20% discount). Camel Archers are excellent vs. other archer civs. Strong on open maps.",
+          "civ_bonuses": [
+            "Villagers move 10% faster.",
+            "Stable units are 15%/20% cheaper in the Castle/Imperial Age.",
+            "Ships move 10% faster."
+          ],
+          "unique_units": [
+            "Camel Archer",
+            "Genitour"
+          ],
+          "meta_tier": "A"
+        },
+        {
+          "name": "PaimPozhil",
+          "civilization": "Goths",
+          "civ_type": "Infantry",
+          "winner": true,
+          "elo": 972,
+          "elo_tier": "Beginner",
+          "eapm": 24,
+          "team": 2,
+          "resigned": false,
+          "grade": "C+",
+          "strengths": [
+            "Won the game!",
+            "Survived a long game - good late-game endurance"
+          ],
+          "improvements": [
+            {
+              "area": "Actions Per Minute (Critical)",
+              "severity": "high",
+              "message": "Your EAPM of 24 is quite low. This means you're not giving enough commands, leading to idle units and idle economy.",
+              "advice": [
+                "Learn and drill hotkeys: Q/W/E for military buildings, H for TC",
+                "Practice the 'TC check loop': every few seconds, tap H to check your TC",
+                "Use control groups: select army, press Ctrl+1. Now press 1 to select them anytime",
+                "Play against the AI to practice multitasking without pressure",
+                "Watch T90's 'Low ELO Legends' for common mistakes to avoid"
+              ]
+            },
+            {
+              "area": "Beginner Fundamentals (972 ELO)",
+              "severity": "high",
+              "message": "At 972 ELO, focus on the basics before strategy.",
+              "advice": [
+                "Learn ONE build order and practice it vs AI until you can do it from memory",
+                "Never stop making villagers - aim for 0 idle TC time in Dark Age",
+                "Use sheep efficiently: only kill one at a time, garrison scout",
+                "Watch Hera's 'Guide to 2000 ELO' series - best learning resource",
+                "Play ranked 1v1 to improve faster - team games mask individual mistakes"
+              ]
+            }
+          ],
+          "civ_advice": "Survive to Imperial and flood with huskarls + champions. You outproduce everyone late game.",
+          "civ_bonuses": [
+            "Infantry units are 15%/20%/25%/30% cheaper in Dark/Feudal/Castle/Imperial Age.",
+            "Infantry have +1/+2/+3 attack vs standard buildings in Feudal/Castle/Imperial Age.",
+            "Villagers have +5 attack vs wild boar; carry +15 food from hunted animals.",
+            "Population cap +10 in the Imperial Age."
+          ],
+          "unique_units": [
+            "Huskarl"
+          ],
+          "meta_tier": "B"
+        },
+        {
+          "name": "KING STEVE HARRINGTON",
+          "civilization": "Byzantines",
+          "civ_type": "Defensive",
+          "winner": false,
+          "elo": 741,
+          "elo_tier": "Beginner",
+          "eapm": 25,
+          "team": 3,
+          "resigned": true,
+          "grade": "C",
+          "strengths": [],
+          "improvements": [
+            {
+              "area": "Actions Per Minute (Critical)",
+              "severity": "high",
+              "message": "Your EAPM of 25 is quite low. This means you're not giving enough commands, leading to idle units and idle economy.",
+              "advice": [
+                "Learn and drill hotkeys: Q/W/E for military buildings, H for TC",
+                "Practice the 'TC check loop': every few seconds, tap H to check your TC",
+                "Use control groups: select army, press Ctrl+1. Now press 1 to select them anytime",
+                "Play against the AI to practice multitasking without pressure",
+                "Watch T90's 'Low ELO Legends' for common mistakes to avoid"
+              ]
+            },
+            {
+              "area": "Beginner Fundamentals (741 ELO)",
+              "severity": "high",
+              "message": "At 741 ELO, focus on the basics before strategy.",
+              "advice": [
+                "Learn ONE build order and practice it vs AI until you can do it from memory",
+                "Never stop making villagers - aim for 0 idle TC time in Dark Age",
+                "Use sheep efficiently: only kill one at a time, garrison scout",
+                "Watch Hera's 'Guide to 2000 ELO' series - best learning resource",
+                "Play ranked 1v1 to improve faster - team games mask individual mistakes"
+              ]
+            },
+            {
+              "area": "Late Game Decision Making",
+              "severity": "low",
+              "message": "Resigned in a long game. Late game is about trade, map control, and composition switches.",
+              "advice": [
+                "Set up trade early (by 35 minutes) - gold wins late games",
+                "Learn trash unit transitions: halberdiers + skirmishers when gold runs out",
+                "Control relics for trickle gold income",
+                "Don't forget trebuchets - you need siege to close out games"
+              ]
+            },
+            {
+              "area": "Playing Byzantines (Defensive)",
+              "severity": "low",
+              "message": "As Byzantines, leverage your unique strengths.",
+              "advice": [
+                "Jack-of-all-trades civ. Counter whatever your opponent does. Cataphracts destroy infantry and halbs.",
+                "Study pro replays of Byzantines on YouTube",
+                "Master your unique units: Cataphract",
+                "Key bonus: Buildings (except Gates, Palisades, Farms, Fish Traps, and Walls) have +10%/+20%/+30%/+40% hit points in the Dark/Feudal/Castle/Imperial Age."
+              ]
+            }
+          ],
+          "civ_advice": "Jack-of-all-trades civ. Counter whatever your opponent does. Cataphracts destroy infantry and halbs.",
+          "civ_bonuses": [
+            "Buildings (except Gates, Palisades, Farms, Fish Traps, and Walls) have +10%/+20%/+30%/+40% hit points in the Dark/Feudal/Castle/Imperial Age.",
+            "Camel Riders, Skirmishers, and the Spearman line are 25% cheaper.",
+            "Fire Ships attack 25% faster.",
+            "Advancing to the Imperial Age is 33% cheaper."
+          ],
+          "unique_units": [
+            "Cataphract"
+          ],
+          "meta_tier": "B"
+        },
+        {
+          "name": "amutha.b.87",
+          "civilization": "Franks",
+          "civ_type": "Cavalry",
+          "winner": true,
+          "elo": 0,
+          "elo_tier": "Unranked",
+          "eapm": 9,
+          "team": 2,
+          "resigned": false,
+          "grade": "C+",
+          "strengths": [
+            "Won the game!",
+            "Survived a long game - good late-game endurance"
+          ],
+          "improvements": [
+            {
+              "area": "Actions Per Minute (Critical)",
+              "severity": "high",
+              "message": "Your EAPM of 9 is quite low. This means you're not giving enough commands, leading to idle units and idle economy.",
+              "advice": [
+                "Learn and drill hotkeys: Q/W/E for military buildings, H for TC",
+                "Practice the 'TC check loop': every few seconds, tap H to check your TC",
+                "Use control groups: select army, press Ctrl+1. Now press 1 to select them anytime",
+                "Play against the AI to practice multitasking without pressure",
+                "Watch T90's 'Low ELO Legends' for common mistakes to avoid"
+              ]
+            },
+            {
+              "area": "Team Contribution",
+              "severity": "medium",
+              "message": "Your EAPM (9) was significantly lower than your team average (25).",
+              "advice": [
+                "In team games, try to match your teammates' activity level",
+                "Help with rushes or defense coordination",
+                "Use flares (Alt+click minimap) to communicate with teammates",
+                "Pocket player? Focus on booming. Flank? Focus on defending and pressuring"
+              ]
+            }
+          ],
+          "civ_advice": "Power spike in Castle Age with knights. Get 3 TCs and mass knights. Cheap castles = map control.",
+          "civ_bonuses": [
+            "Farm upgrades are free.",
+            "Castles are 15%/25% cheaper in the Castle/Imperial Age.",
+            "Mounted units have +20% hit points (starting in the Feudal Age).",
+            "Foragers work 15% faster."
+          ],
+          "unique_units": [
+            "Throwing Axeman"
+          ],
+          "meta_tier": "A"
+        },
+        {
+          "name": "mark_aoe_2024",
+          "civilization": "Malay",
+          "civ_type": "Infantry and Naval",
+          "winner": true,
+          "elo": 985,
+          "elo_tier": "Beginner",
+          "eapm": 32,
+          "team": 2,
+          "resigned": false,
+          "grade": "B+",
+          "strengths": [
+            "Decent EAPM (32)",
+            "Won the game!",
+            "Survived a long game - good late-game endurance",
+            "Highest activity on your team (EAPM: 32 vs team avg: 25)"
+          ],
+          "improvements": [
+            {
+              "area": "Actions Per Minute",
+              "severity": "medium",
+              "message": "Your EAPM of 32 is in the intermediate range. Higher EAPM means better multitasking.",
+              "advice": [
+                "Practice cycling through TCs with hotkeys (H key by default)",
+                "Use control groups for military (Ctrl+1, Ctrl+2, etc.)",
+                "Queue villagers while managing military - never let TC idle",
+                "Set rally points and use gather points efficiently"
+              ]
+            },
+            {
+              "area": "Beginner Fundamentals (985 ELO)",
+              "severity": "high",
+              "message": "At 985 ELO, focus on the basics before strategy.",
+              "advice": [
+                "Learn ONE build order and practice it vs AI until you can do it from memory",
+                "Never stop making villagers - aim for 0 idle TC time in Dark Age",
+                "Use sheep efficiently: only kill one at a time, garrison scout",
+                "Watch Hera's 'Guide to 2000 ELO' series - best learning resource",
+                "Play ranked 1v1 to improve faster - team games mask individual mistakes"
+              ]
+            }
+          ],
+          "civ_advice": "Age up 66% faster! Rush to Castle/Imperial before your opponent. Forced Levy = free trash two-handed swordsmen.",
+          "civ_bonuses": [
+            "Advancing to Ages is 66% faster.",
+            "Fish Traps cost -33% and provide unlimited food.",
+            "Battle Elephants are 30%/40% cheaper in the Castle/Imperial Age.",
+            "Docks have double Line of Sight."
+          ],
+          "unique_units": [
+            "Karambit Warrior"
+          ],
+          "meta_tier": "B"
+        },
+        {
+          "name": "THEY DONT CARE ABOUT US",
+          "civilization": "Burmese",
+          "civ_type": "Infantry and Cavalry",
+          "winner": false,
+          "elo": 1088,
+          "elo_tier": "Intermediate",
+          "eapm": 45,
+          "team": 3,
+          "resigned": true,
+          "grade": "B",
+          "strengths": [
+            "Decent EAPM (45)",
+            "Highest activity on your team (EAPM: 45 vs team avg: 34)"
+          ],
+          "improvements": [
+            {
+              "area": "Actions Per Minute",
+              "severity": "medium",
+              "message": "Your EAPM of 45 is in the intermediate range. Higher EAPM means better multitasking.",
+              "advice": [
+                "Practice cycling through TCs with hotkeys (H key by default)",
+                "Use control groups for military (Ctrl+1, Ctrl+2, etc.)",
+                "Queue villagers while managing military - never let TC idle",
+                "Set rally points and use gather points efficiently"
+              ]
+            },
+            {
+              "area": "Climbing from 1088 ELO",
+              "severity": "medium",
+              "message": "At 1088 ELO (Intermediate), the biggest gains come from economy fundamentals.",
+              "advice": [
+                "Zero idle TC time is the #1 skill - always be making villagers until 120+ pop",
+                "Learn 2-3 build orders by heart (scouts, archers, fast castle)",
+                "Don't forget eco upgrades: Double-Bit Axe, Horse Collar, etc. on time",
+                "Scout your opponent in Feudal to know if you need to defend or attack"
+              ]
+            },
+            {
+              "area": "Late Game Decision Making",
+              "severity": "low",
+              "message": "Resigned in a long game. Late game is about trade, map control, and composition switches.",
+              "advice": [
+                "Set up trade early (by 35 minutes) - gold wins late games",
+                "Learn trash unit transitions: halberdiers + skirmishers when gold runs out",
+                "Control relics for trickle gold income",
+                "Don't forget trebuchets - you need siege to close out games"
+              ]
+            },
+            {
+              "area": "Playing Burmese (Infantry and Cavalry)",
+              "severity": "low",
+              "message": "As Burmese, leverage your unique strengths.",
+              "advice": [
+                "Free lumber camp techs boost early eco. Arambai hit hard but inaccurately. Monks with cheap monastery techs.",
+                "Study pro replays of Burmese on YouTube",
+                "Master your unique units: Arambai",
+                "Key bonus: Free Lumber Camp upgrades."
+              ]
+            }
+          ],
+          "civ_advice": "Free lumber camp techs boost early eco. Arambai hit hard but inaccurately. Monks with cheap monastery techs.",
+          "civ_bonuses": [
+            "Free Lumber Camp upgrades.",
+            "Infantry +1/+2/+3 attack in the Feudal/Castle/Imperial Age.",
+            "Monastery technologies cost -50%."
+          ],
+          "unique_units": [
+            "Arambai"
+          ],
+          "meta_tier": "B"
+        }
+      ],
+      "tips": [
+        {
+          "category": "Late Game",
+          "tip": "60+ minute game. Set up trade by 35 min. Learn trash transitions (halbs + skirms). Control relics."
+        },
+        {
+          "category": "Matchup Alert",
+          "tip": "Goths detected! End the game before Imperial - Goth infantry flood is near-impossible to stop in late game."
+        },
+        {
+          "category": "Lobby",
+          "tip": "Average ELO in this game: 1003 (Intermediate level)"
+        },
+        {
+          "category": "Golden Rule",
+          "tip": "The #1 skill at EVERY ELO: keep your TC producing villagers. Zero idle TC time wins more games than any strategy."
+        }
+      ],
+      "focus_areas": [
+        {
+          "area": "Actions Per Minute (Critical)",
+          "severity": "high",
+          "message": "Your EAPM of 24 is quite low. This means you're not giving enough commands, leading to idle units and idle economy.",
+          "advice": [
+            "Learn and drill hotkeys: Q/W/E for military buildings, H for TC",
+            "Practice the 'TC check loop': every few seconds, tap H to check your TC",
+            "Use control groups: select army, press Ctrl+1. Now press 1 to select them anytime",
+            "Play against the AI to practice multitasking without pressure",
+            "Watch T90's 'Low ELO Legends' for common mistakes to avoid"
+          ]
+        },
+        {
+          "area": "Beginner Fundamentals (972 ELO)",
+          "severity": "high",
+          "message": "At 972 ELO, focus on the basics before strategy.",
+          "advice": [
+            "Learn ONE build order and practice it vs AI until you can do it from memory",
+            "Never stop making villagers - aim for 0 idle TC time in Dark Age",
+            "Use sheep efficiently: only kill one at a time, garrison scout",
+            "Watch Hera's 'Guide to 2000 ELO' series - best learning resource",
+            "Play ranked 1v1 to improve faster - team games mask individual mistakes"
+          ]
+        }
+      ]
+    },
+    "engagements": [
+      {
+        "time": 0,
+        "p1": 3,
+        "p2": 4
+      },
+      {
+        "time": 0,
+        "p1": 6,
+        "p2": 7
+      },
+      {
+        "time": 6,
+        "p1": 3,
+        "p2": 4
+      },
+      {
+        "time": 9,
+        "p1": 6,
+        "p2": 7
+      },
+      {
+        "time": 12,
+        "p1": 6,
+        "p2": 7
+      },
+      {
+        "time": 12,
+        "p1": 1,
+        "p2": 6
+      },
+      {
+        "time": 15,
+        "p1": 2,
+        "p2": 7
+      },
+      {
+        "time": 15,
+        "p1": 1,
+        "p2": 2
+      },
+      {
+        "time": 15,
+        "p1": 3,
+        "p2": 4
+      },
+      {
+        "time": 18,
+        "p1": 1,
+        "p2": 6
+      },
+      {
+        "time": 18,
+        "p1": 1,
+        "p2": 2
+      },
+      {
+        "time": 18,
+        "p1": 6,
+        "p2": 7
+      },
+      {
+        "time": 18,
+        "p1": 2,
+        "p2": 7
+      },
+      {
+        "time": 18,
+        "p1": 3,
+        "p2": 4
+      },
+      {
+        "time": 24,
+        "p1": 2,
+        "p2": 7
+      },
+      {
+        "time": 24,
+        "p1": 6,
+        "p2": 7
+      },
+      {
+        "time": 24,
+        "p1": 1,
+        "p2": 2
+      },
+      {
+        "time": 24,
+        "p1": 1,
+        "p2": 6
+      },
+      {
+        "time": 24,
+        "p1": 3,
+        "p2": 4
+      },
+      {
+        "time": 27,
+        "p1": 1,
+        "p2": 3
+      },
+      {
+        "time": 30,
+        "p1": 6,
+        "p2": 7
+      },
+      {
+        "time": 30,
+        "p1": 2,
+        "p2": 7
+      },
+      {
+        "time": 30,
+        "p1": 3,
+        "p2": 4
+      },
+      {
+        "time": 30,
+        "p1": 1,
+        "p2": 6
+      },
+      {
+        "time": 30,
+        "p1": 1,
+        "p2": 2
+      },
+      {
+        "time": 36,
+        "p1": 6,
+        "p2": 7
+      },
+      {
+        "time": 36,
+        "p1": 2,
+        "p2": 7
+      },
+      {
+        "time": 36,
+        "p1": 1,
+        "p2": 6
+      },
+      {
+        "time": 36,
+        "p1": 1,
+        "p2": 5
+      },
+      {
+        "time": 36,
+        "p1": 1,
+        "p2": 2
+      },
+      {
+        "time": 36,
+        "p1": 3,
+        "p2": 4
+      },
+      {
+        "time": 42,
+        "p1": 1,
+        "p2": 6
+      },
+      {
+        "time": 42,
+        "p1": 1,
+        "p2": 5
+      },
+      {
+        "time": 42,
+        "p1": 1,
+        "p2": 2
+      },
+      {
+        "time": 42,
+        "p1": 6,
+        "p2": 7
+      },
+      {
+        "time": 45,
+        "p1": 3,
+        "p2": 4
+      },
+      {
+        "time": 45,
+        "p1": 5,
+        "p2": 7
+      },
+      {
+        "time": 45,
+        "p1": 2,
+        "p2": 7
+      }
+    ],
+    "players": [
+      [
+        "Nan Nilavan",
+        "Mapuche",
+        3,
+        1230,
+        false,
+        32
+      ],
+      [
+        "Lone Wolf",
+        "Berbers",
+        2,
+        0,
+        true,
+        36
+      ],
+      [
+        "PaimPozhil",
+        "Goths",
+        2,
+        972,
+        true,
+        24
+      ],
+      [
+        "KING STEVE HARRINGTON",
+        "Byzantines",
+        3,
+        741,
+        false,
+        25
+      ],
+      [
+        "amutha.b.87",
+        "Franks",
+        2,
+        0,
+        true,
+        9
+      ],
+      [
+        "mark_aoe_2024",
+        "Malay",
+        2,
+        985,
+        true,
+        32
+      ],
+      [
+        "THEY DONT CARE ABOUT US",
+        "Burmese",
+        3,
+        1088,
+        false,
+        45
+      ]
+    ]
+  }
+]

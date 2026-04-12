@@ -346,20 +346,99 @@ def _parse_in_subprocess(file_data: bytes) -> dict:
 
 
 def parse_replay(file_data: bytes) -> GameAnalysis:
-    """Parse an AOE2 recorded game file and return analysis."""
+    """Parse an AOE2 recorded game file. Uses aoe2rec (subprocess) first, falls back to mgz."""
     analysis = GameAnalysis()
 
-    # Always use subprocess for parsing — aoe2rec Rust panics can kill
-    # the process and can't be caught by Python's try/except.
-    # Subprocess isolation is the only reliable protection.
+    # Try aoe2rec first (Rust, fast, has deep operations parsing)
+    # Runs in subprocess to isolate Rust panics
     raw = _parse_in_subprocess(file_data)
 
-    if "error" in raw:
-        analysis.raw_errors.append(raw["error"])
+    if "error" not in raw:
+        _populate_analysis(analysis, raw)
         return analysis
 
-    _populate_analysis(analysis, raw)
+    # aoe2rec failed — try mgz as fallback (pure Python, won't crash)
+    mgz_raw = _parse_with_mgz(file_data)
+    if mgz_raw and "error" not in mgz_raw:
+        _populate_analysis(analysis, mgz_raw)
+        analysis.raw_errors.append("(Parsed with mgz fallback — deep stats limited)")
+        return analysis
+
+    # Both parsers failed
+    analysis.raw_errors.append(raw.get("error", "Unknown parse error"))
+    if mgz_raw and "error" in mgz_raw:
+        analysis.raw_errors.append(f"mgz also failed: {mgz_raw['error']}")
     return analysis
+
+
+def _parse_with_mgz(file_data: bytes) -> dict:
+    """Fallback parser using mgz (pure Python, no crash risk)."""
+    try:
+        import io
+        from mgz import header as mgz_header
+
+        h = mgz_header.parse_stream(io.BytesIO(file_data))
+        if not h or not hasattr(h, 'de'):
+            return {"error": "mgz: no DE header found"}
+
+        result = {"players": {}, "chats": [], "game_stats": {}}
+
+        # Extract duration from replay section
+        if hasattr(h, 'replay') and hasattr(h.replay, 'world_time'):
+            result["duration"] = h.replay.world_time
+
+        # Extract players from DE header
+        de = h.de
+        if hasattr(de, 'players'):
+            pid = 0
+            for p in de.players:
+                name_obj = getattr(p, 'name', None)
+                name = ""
+                if name_obj:
+                    if hasattr(name_obj, 'value'):
+                        name = str(name_obj.value).strip()
+                    else:
+                        name = str(name_obj).strip()
+
+                if not name:
+                    continue  # Skip empty player slots
+
+                pid += 1
+                civ_id = getattr(p, 'civ_id', 0)
+                color_id = getattr(p, 'color_id', pid - 1)
+                team_id = getattr(p, 'resolved_team_id', getattr(p, 'selected_team_id', 0))
+                elo = getattr(p, 'elo', 0)
+                eapm = getattr(p, 'eapm', 0)
+                resigned = getattr(p, 'resigned', False)
+                profile_id = getattr(p, 'profile_id', 0)
+
+                result["players"][str(pid)] = {
+                    "name": name,
+                    "civ_id": civ_id if isinstance(civ_id, int) else 0,
+                    "color_id": color_id if isinstance(color_id, int) else 0,
+                    "elo": elo if isinstance(elo, int) else 0,
+                    "eapm": eapm if isinstance(eapm, int) else 0,
+                    "resigned": bool(resigned),
+                    "resolved_team_id": team_id if isinstance(team_id, int) else 0,
+                    "profile_id": profile_id if isinstance(profile_id, int) else 0,
+                }
+
+        if not result["players"]:
+            return {"error": "mgz: no players found"}
+
+        # Extract game settings
+        if hasattr(h, 'de') and hasattr(h.de, 'game_settings'):
+            gs = h.de.game_settings
+            result["map_id"] = getattr(gs, 'resolved_map_id', getattr(gs, 'selected_map_id', None))
+            result["lobby_name"] = getattr(gs, 'lobby_name', "")
+            result["speed"] = getattr(gs, 'speed', None)
+            result["ranked"] = bool(getattr(gs, 'ranked', False))
+            result["pop_limit"] = getattr(gs, 'population_limit', 200)
+
+        return result
+
+    except Exception as e:
+        return {"error": f"mgz: {type(e).__name__}: {str(e)[:150]}"}
 
 
 def _try_direct_parse(file_data: bytes) -> dict:
