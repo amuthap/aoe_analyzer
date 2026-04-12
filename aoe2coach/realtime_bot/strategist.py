@@ -26,10 +26,23 @@ from realtime_bot.memory import GameState, PlayerState, STRATEGIC_NUMBERS
 
 log = logging.getLogger("aoe2bot.strategist")
 
-# LLM Config (same as llm_coach.py)
-LLM_BASE_URL = "http://llm.hyperbig.com:4000"
-LLM_API_KEY = "sk-GtL5TQcP1PIN2xnPHBtDZg"
-LLM_MODEL = "qwen/qwen3.6-plus"
+# LLM Config — reads from environment or .env file (same as llm_coach.py)
+LLM_BASE_URL = os.environ.get("LLM_BASE_URL", "http://llm.hyperbig.com:4000")
+LLM_API_KEY = os.environ.get("LLM_API_KEY", "")
+LLM_MODEL = os.environ.get("LLM_MODEL", "qwen/qwen3.6-plus")
+
+if not LLM_API_KEY:
+    _env_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), ".env")
+    if os.path.exists(_env_path):
+        with open(_env_path) as _f:
+            for _line in _f:
+                _line = _line.strip()
+                if _line and not _line.startswith("#") and "=" in _line:
+                    _k, _v = _line.split("=", 1)
+                    os.environ.setdefault(_k.strip(), _v.strip())
+        LLM_BASE_URL = os.environ.get("LLM_BASE_URL", LLM_BASE_URL)
+        LLM_API_KEY = os.environ.get("LLM_API_KEY", "")
+        LLM_MODEL = os.environ.get("LLM_MODEL", LLM_MODEL)
 
 AGE_NAMES = {0: "Dark Age", 1: "Feudal Age", 2: "Castle Age", 3: "Imperial Age"}
 

@@ -1,14 +1,29 @@
 """AOE2 AI Coach - LLM-powered analysis using Qwen via OpenAI-compatible API."""
 
 import json
+import os
 from openai import OpenAI
 from knowledge_base import AOE2_KNOWLEDGE_BASE, get_civ_matchup_context, get_player_specific_context
 from game_stats import format_player_stats_for_ai, format_engagements_for_ai
 
-# LLM Config
-LLM_BASE_URL = "http://llm.hyperbig.com:4000"
-LLM_API_KEY = "sk-GtL5TQcP1PIN2xnPHBtDZg"
-LLM_MODEL = "qwen/qwen3.6-plus"
+# LLM Config — reads from environment variables or .env file
+LLM_BASE_URL = os.environ.get("LLM_BASE_URL", "http://llm.hyperbig.com:4000")
+LLM_API_KEY = os.environ.get("LLM_API_KEY", "")
+LLM_MODEL = os.environ.get("LLM_MODEL", "qwen/qwen3.6-plus")
+
+if not LLM_API_KEY:
+    # Try loading from .env file in the same directory
+    _env_path = os.path.join(os.path.dirname(__file__), ".env")
+    if os.path.exists(_env_path):
+        with open(_env_path) as _f:
+            for _line in _f:
+                _line = _line.strip()
+                if _line and not _line.startswith("#") and "=" in _line:
+                    _k, _v = _line.split("=", 1)
+                    os.environ.setdefault(_k.strip(), _v.strip())
+        LLM_BASE_URL = os.environ.get("LLM_BASE_URL", LLM_BASE_URL)
+        LLM_API_KEY = os.environ.get("LLM_API_KEY", "")
+        LLM_MODEL = os.environ.get("LLM_MODEL", LLM_MODEL)
 
 client = OpenAI(base_url=LLM_BASE_URL, api_key=LLM_API_KEY)
 
