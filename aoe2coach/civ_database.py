@@ -2,15 +2,20 @@
 Complete AOE2:DE Civilization Database
 ======================================
 Scraped from the Age of Empires Series Wiki (ageofempires.fandom.com).
-All 53 civilizations as of April 2026, including:
-  - Three Kingdoms DLC (May 2025): Shu, Wei, Wu, Jurchens, Khitans
+All civilizations as of April 2026, including:
+  - Battle for Greece DLC (Nov 2024): Achaemenids, Athenians, Spartans
+  - Three Kingdoms DLC (May 2025): Wu, Wei, Jurchens, Khitans, Shu
+  - Alexander the Great DLC (Oct 2025): Macedonians, Thracians, Puru
   - The Last Chieftains DLC (Feb 2026): Mapuche, Muisca, Tupi
   - Chinese rework (Feb 2026), Inca rework (Feb 2026)
 
-Civilization IDs follow the internal game order from the .dat files.
+Civilization IDs verified against aoe2companion API (April 2026).
+IDs 46-49 and 55-57 are reserved for Chronicles/campaign-only civs
+and do not appear in standard multiplayer replays.
 """
 
 # Internal civilization IDs (used in replay files and scenario editor)
+# Verified by cross-referencing parsed replays against aoe2companion API
 CIV_IDS = {
     1: "Britons",
     2: "Franks",
@@ -41,30 +46,32 @@ CIV_IDS = {
     27: "Berbers",
     28: "Khmer",
     29: "Malay",
-    30: "Vietnamese",
-    31: "Burmese",
+    30: "Burmese",      # swapped with Vietnamese in recent patch
+    31: "Vietnamese",   # verified via aoe2companion API
     32: "Lithuanians",
     33: "Bulgarians",
     34: "Cumans",
     35: "Tatars",
     36: "Burgundians",
     37: "Sicilians",
-    38: "Bohemians",
-    39: "Poles",
+    38: "Poles",         # swapped with Bohemians; verified via API + Obuch UU
+    39: "Bohemians",    # verified via API (KING STEVE plays Bohemians at id 39)
     40: "Dravidians",
     41: "Bengalis",
     42: "Gurjaras",
     43: "Romans",
     44: "Armenians",
     45: "Georgians",
-    46: "Jurchens",
-    47: "Khitans",
-    48: "Shu",
-    49: "Wei",
-    50: "Wu",
-    51: "Mapuche",
-    52: "Muisca",
-    53: "Tupi",
+    # 46-49: Reserved for Chronicles/campaign civs (Battle for Greece, etc.)
+    50: "Wu",           # Three Kingdoms DLC - verified
+    51: "Wei",          # Three Kingdoms DLC - verified via API (3 games)
+    52: "Jurchens",     # Three Kingdoms DLC - verified via API (2 games)
+    53: "Khitans",      # Three Kingdoms DLC - inferred from DLC order
+    54: "Shu",          # Three Kingdoms DLC - inferred from DLC order
+    # 55-57: Reserved for Chronicles/campaign civs (Alexander the Great, etc.)
+    58: "Mapuche",      # Last Chieftains DLC - verified via API
+    59: "Tupi",         # Last Chieftains DLC - verified via API (2 games)
+    60: "Muisca",       # Last Chieftains DLC - inferred from DLC order
 }
 
 # Reverse lookup: name -> ID

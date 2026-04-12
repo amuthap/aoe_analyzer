@@ -598,6 +598,8 @@ def _populate_analysis(analysis: GameAnalysis, raw: dict):
             279: [(239, "Heavy Scorpion")],  # Scorpion -> Heavy Scorpion
             280: [(236, "Onager")],  # Mangonel -> Onager
             329: [(None, "Heavy Camel Rider")],  # Camel -> Heavy Camel
+            1668: [(None, "Camel Rider")],  # Camel Scout -> Camel Rider (auto in Feudal)
+            1755: [(None, "Camel Rider")],  # Camel Scout -> Camel Rider (auto in Feudal)
         }
 
         for pid_str, pstats in raw_stats.items():
