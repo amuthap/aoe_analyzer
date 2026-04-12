@@ -18,6 +18,55 @@
             </div>
         </header>
 
+        <!-- Real-time Bot Panel -->
+        <section id="bot-section" class="bot-section">
+            <div class="card bot-card">
+                <div class="bot-header" onclick="toggleBot()">
+                    <h2>&#129302; Real-time AI Bot</h2>
+                    <span class="bot-toggle" id="bot-toggle">&#9660;</span>
+                </div>
+                <div class="bot-body" id="bot-body" style="display:none">
+                    <p class="bot-desc">Enhances the Extreme AI in real-time. Start AOE2:DE, set up a skirmish with Extreme AI, then start the bot.</p>
+                    <div class="bot-config">
+                        <div class="bot-row">
+                            <label>AI Player #</label>
+                            <select id="bot-ai-player">
+                                <option value="2" selected>Player 2</option>
+                                <option value="3">Player 3</option>
+                                <option value="4">Player 4</option>
+                                <option value="5">Player 5</option>
+                                <option value="6">Player 6</option>
+                                <option value="7">Player 7</option>
+                                <option value="8">Player 8</option>
+                            </select>
+                        </div>
+                        <div class="bot-row">
+                            <label>AI Civ</label>
+                            <input type="text" id="bot-ai-civ" placeholder="e.g. Franks" value="Franks">
+                        </div>
+                        <div class="bot-row">
+                            <label>Your Civ</label>
+                            <input type="text" id="bot-opp-civ" placeholder="e.g. Britons" value="Britons">
+                        </div>
+                        <div class="bot-row">
+                            <label>Map</label>
+                            <input type="text" id="bot-map" placeholder="e.g. Arabia" value="Arabia">
+                        </div>
+                        <div class="bot-actions">
+                            <button class="btn btn-bot-start" id="bot-start-btn" onclick="startBot()">&#9654; Start Bot</button>
+                            <button class="btn btn-bot-stop" id="bot-stop-btn" onclick="stopBot()" disabled>&#9724; Stop</button>
+                            <button class="btn btn-bot-pause" id="bot-pause-btn" onclick="pauseBot()" disabled>&#10074;&#10074; Pause</button>
+                        </div>
+                    </div>
+                    <div class="bot-status" id="bot-status">
+                        <div class="bot-state" id="bot-state-display">Status: idle</div>
+                    </div>
+                    <div class="bot-log" id="bot-log"></div>
+                    <div class="bot-decisions" id="bot-decisions"></div>
+                </div>
+            </div>
+        </section>
+
         <!-- Upload -->
         <section id="upload-section" class="upload-section">
             <div class="upload-zone" id="drop-zone">
@@ -483,6 +532,152 @@
             currentData = null;
             showSection('upload');
         }
+
+        // --- Real-time Bot Controls ---
+        let botPollInterval = null;
+
+        function toggleBot() {
+            const body = document.getElementById('bot-body');
+            const toggle = document.getElementById('bot-toggle');
+            if (body.style.display === 'none') {
+                body.style.display = 'block';
+                toggle.innerHTML = '&#9650;';
+            } else {
+                body.style.display = 'none';
+                toggle.innerHTML = '&#9660;';
+            }
+        }
+
+        async function startBot() {
+            const fd = new FormData();
+            fd.append('ai_player', document.getElementById('bot-ai-player').value);
+            fd.append('ai_civ', document.getElementById('bot-ai-civ').value);
+            fd.append('opp_civs', document.getElementById('bot-opp-civ').value);
+            fd.append('map_name', document.getElementById('bot-map').value);
+            fd.append('game_type', '1v1');
+
+            try {
+                const resp = await fetch('/bot/start', { method: 'POST', body: fd });
+                const data = await resp.json();
+                if (data.success) {
+                    document.getElementById('bot-start-btn').disabled = true;
+                    document.getElementById('bot-stop-btn').disabled = false;
+                    document.getElementById('bot-pause-btn').disabled = false;
+                    startBotPolling();
+                } else {
+                    alert(data.error || 'Failed to start bot');
+                }
+            } catch (err) {
+                alert('Error: ' + err.message);
+            }
+        }
+
+        async function stopBot() {
+            await fetch('/bot/stop', { method: 'POST' });
+            document.getElementById('bot-start-btn').disabled = false;
+            document.getElementById('bot-stop-btn').disabled = true;
+            document.getElementById('bot-pause-btn').disabled = true;
+            stopBotPolling();
+        }
+
+        async function pauseBot() {
+            const btn = document.getElementById('bot-pause-btn');
+            if (btn.textContent.includes('Pause')) {
+                await fetch('/bot/pause', { method: 'POST' });
+                btn.innerHTML = '&#9654; Resume';
+            } else {
+                await fetch('/bot/resume', { method: 'POST' });
+                btn.innerHTML = '&#10074;&#10074; Pause';
+            }
+        }
+
+        function startBotPolling() {
+            stopBotPolling();
+            botPollInterval = setInterval(pollBotStatus, 2000);
+            pollBotStatus();
+        }
+
+        function stopBotPolling() {
+            if (botPollInterval) {
+                clearInterval(botPollInterval);
+                botPollInterval = null;
+            }
+        }
+
+        async function pollBotStatus() {
+            try {
+                const resp = await fetch('/bot/status');
+                const data = await resp.json();
+                renderBotStatus(data);
+
+                if (data.state === 'stopped' || data.state === 'idle') {
+                    document.getElementById('bot-start-btn').disabled = false;
+                    document.getElementById('bot-stop-btn').disabled = true;
+                    document.getElementById('bot-pause-btn').disabled = true;
+                    stopBotPolling();
+                }
+            } catch (err) { /* ignore polling errors */ }
+        }
+
+        function renderBotStatus(data) {
+            const stateEl = document.getElementById('bot-state-display');
+            const stateColors = {
+                idle: '#888', waiting_for_game: '#f0ad4e', running: '#5cb85c',
+                paused: '#f0ad4e', stopped: '#888', error: '#d9534f'
+            };
+            const color = stateColors[data.state] || '#888';
+            const stats = data.stats || {};
+            stateEl.innerHTML = `
+                <span style="color:${color};font-weight:bold">${(data.state || 'idle').toUpperCase()}</span>
+                ${stats.game_time ? ` &bull; Game: ${stats.game_time}` : ''}
+                ${stats.llm_calls ? ` &bull; LLM calls: ${stats.llm_calls}` : ''}
+                ${stats.sn_writes ? ` &bull; SN writes: ${stats.sn_writes}` : ''}
+            `;
+
+            // Event log
+            const logEl = document.getElementById('bot-log');
+            const events = data.events || [];
+            if (events.length > 0) {
+                const levelIcons = { info: 'ℹ', success: '✓', error: '✗', decision: '🧠', status: '📊' };
+                const levelColors = { info: '#aaa', success: '#5cb85c', error: '#d9534f', decision: '#9b59b6', status: '#3498db' };
+                logEl.innerHTML = events.slice(-10).reverse().map(e =>
+                    `<div class="bot-log-entry" style="border-left:3px solid ${levelColors[e.level] || '#aaa'}">
+                        <span class="bot-log-time">${e.time}</span>
+                        <span class="bot-log-icon">${levelIcons[e.level] || ''}</span>
+                        <span class="bot-log-msg">${e.message}</span>
+                    </div>`
+                ).join('');
+            }
+
+            // Decisions
+            const decEl = document.getElementById('bot-decisions');
+            const decisions = (stats.decisions || []).slice(-5).reverse();
+            if (decisions.length > 0) {
+                decEl.innerHTML = '<h4>LLM Decisions</h4>' + decisions.map(d =>
+                    `<div class="bot-decision">
+                        <div class="bot-decision-time">${d.time}</div>
+                        <div class="bot-decision-text">${d.reasoning}</div>
+                        <div class="bot-decision-changes">${Object.entries(d.changes).map(([k,v]) => `<span class="sn-chip">${k}: ${v}</span>`).join(' ')}</div>
+                    </div>`
+                ).join('');
+            }
+        }
+
+        // Auto-check bot status on page load
+        (async function() {
+            try {
+                const resp = await fetch('/bot/status');
+                const data = await resp.json();
+                if (data.state === 'running' || data.state === 'waiting_for_game' || data.state === 'paused') {
+                    document.getElementById('bot-body').style.display = 'block';
+                    document.getElementById('bot-toggle').innerHTML = '&#9650;';
+                    document.getElementById('bot-start-btn').disabled = true;
+                    document.getElementById('bot-stop-btn').disabled = false;
+                    document.getElementById('bot-pause-btn').disabled = false;
+                    startBotPolling();
+                }
+            } catch(e) {}
+        })();
     </script>
 </body>
 </html>

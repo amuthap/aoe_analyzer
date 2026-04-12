@@ -13,6 +13,7 @@ from parser import parse_replay
 from coach import generate_coaching
 from llm_coach import get_ai_analysis
 from game_stats import get_battle_advice
+from realtime_bot.bot import start_bot, stop_bot, get_bot, STATE_RUNNING
 
 app = FastAPI(title="AOE2 Game Coach", version="0.2.0")
 
@@ -129,7 +130,69 @@ async def ai_analyze(
 
 @app.get("/health")
 async def health():
-    return {"status": "ok", "version": "0.2.0"}
+    return {"status": "ok", "version": "0.3.0"}
+
+
+# --- Real-time Bot Endpoints ---
+
+@app.post("/bot/start", response_class=JSONResponse)
+async def bot_start(
+    ai_player: int = Form(default=2),
+    ai_civ: str = Form(default="Franks"),
+    opp_civs: str = Form(default="Britons"),
+    map_name: str = Form(default="Arabia"),
+    game_type: str = Form(default="1v1"),
+):
+    """Start the real-time AI bot."""
+    existing = get_bot()
+    if existing and existing.state == STATE_RUNNING:
+        return JSONResponse(content={"error": "Bot already running. Stop it first."}, status_code=400)
+
+    opp_list = [c.strip() for c in opp_civs.split(",") if c.strip()]
+    bot = start_bot(
+        ai_player_id=ai_player,
+        ai_civ=ai_civ,
+        opponent_civs=opp_list,
+        map_name=map_name,
+        game_type=game_type,
+    )
+    return JSONResponse(content={"success": True, "message": "Bot started", "state": bot.state})
+
+
+@app.post("/bot/stop", response_class=JSONResponse)
+async def bot_stop():
+    """Stop the real-time AI bot."""
+    stop_bot()
+    return JSONResponse(content={"success": True, "message": "Bot stopped"})
+
+
+@app.post("/bot/pause", response_class=JSONResponse)
+async def bot_pause():
+    """Pause the bot (stops LLM calls)."""
+    bot = get_bot()
+    if bot:
+        bot.pause()
+        return JSONResponse(content={"success": True, "state": bot.state})
+    return JSONResponse(content={"error": "No bot running"}, status_code=400)
+
+
+@app.post("/bot/resume", response_class=JSONResponse)
+async def bot_resume():
+    """Resume the bot."""
+    bot = get_bot()
+    if bot:
+        bot.resume()
+        return JSONResponse(content={"success": True, "state": bot.state})
+    return JSONResponse(content={"error": "No bot running"}, status_code=400)
+
+
+@app.get("/bot/status", response_class=JSONResponse)
+async def bot_status():
+    """Get current bot status, events, and decisions."""
+    bot = get_bot()
+    if bot:
+        return JSONResponse(content=bot.get_status())
+    return JSONResponse(content={"state": "idle", "stats": {}, "events": []})
 
 
 if __name__ == "__main__":
